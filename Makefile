@@ -4,18 +4,26 @@
 # Activate the conda env first:  conda activate fda-label-intelligence   (or: make up PYTHON=/path/to/python)
 PYTHON ?= python
 RUN := .run
-SERVICES := ingest:8001 chunk:8002 embed:8003 query:8004
+SERVICES := ingest:8001 chunk:8002 embed:8003 query:8004 answer:8005
 
-.PHONY: up down restart status logs test index
+.PHONY: up down restart status logs test index up-answer
 
 up:
 	@mkdir -p $(RUN)
-	@for s in $(SERVICES); do name=$${s%%:*}; port=$${s##*:}; \
+	@for s in $(filter-out answer:8005,$(SERVICES)); do name=$${s%%:*}; port=$${s##*:}; \
 	  if [ -s $(RUN)/$$name.pid ] && kill -0 $$(cat $(RUN)/$$name.pid) 2>/dev/null; then echo "$$name already running"; continue; fi; \
 	  nohup $(PYTHON) -m uvicorn src.services.$$name:app --host 127.0.0.1 --port $$port --log-level warning \
 	    > $(RUN)/$$name.log 2>&1 & echo $$! > $(RUN)/$$name.pid; \
 	  echo "started $$name on :$$port (pid $$(cat $(RUN)/$$name.pid))"; done
 	@$(PYTHON) scripts/wait_healthy.py
+
+# Phase 2: the answer service (LangChain + Bedrock). Needs BEDROCK_MODEL_ID etc. in .env and a valid `aws login`.
+# Phase 2 search pipeline: start the stack with  PIPELINE=v2 make up PYTHON=...
+up-answer:
+	@mkdir -p $(RUN)
+	@nohup $(PYTHON) -m uvicorn src.services.answer:app --host 127.0.0.1 --port 8005 --log-level warning \
+	    > $(RUN)/answer.log 2>&1 & echo $$! > $(RUN)/answer.pid; echo "started answer on :8005"
+	@$(PYTHON) scripts/wait_healthy.py --answer
 
 # Stops each service and empties its pid file (an empty pid file means "not running").
 down:
