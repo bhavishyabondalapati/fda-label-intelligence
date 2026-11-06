@@ -68,6 +68,7 @@ The **search index contains all ~5,000 labels** (needed for scale and realism). 
 2. **Verbatim-quote gate (required):** the field has at least one supporting quote (3 to 300 characters) that appears word for word in the source text sent to the model (case-insensitive, whitespace collapsed).
 3. Value-support gate: the value's own tokens (or, for route, a cue word for that route) appear inside the quote(s).
 4. Cross-field consistency: `is_combination` must equal (2+ ingredients in `active_ingredients`) and is approved only if `active_ingredients` is approved.
+   Also: `generic_name` and `active_ingredients` must name the same drug (one set of salt-stripped words contained in the other), otherwise both are flagged. Quote-support details (route cue words, the 'warning' cue for boxed warnings, a 12,000 character / about 3K token section cap in a fixed section order) are frozen in `src/extract/validate.py` and `src/extract/retrieve.py` before the train run.
 5. Confidence gate (below).
 - **Absence is never auto-approved.** A null, empty list, or `false` claim has no text to quote, so it is always flagged (this includes `has_boxed_warning = false` and `pharm_class = []`). `is_combination` is the one derived exception (rule 4).
 - **Confidence signal.** Claude on Bedrock gives no token probabilities, so confidence is the model's own rating (`high`/`medium`/`low`) per field. That is weak evidence, so it can only ADD a requirement (a minimum level) and can never rescue a field that failed gates 1 to 4.
