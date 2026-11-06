@@ -1,0 +1,70 @@
+{
+  "system": "baseline",
+  "description": "naive fixed-size chunks, all-MiniLM-L6-v2, dense only, local exact numpy index",
+  "metric": "recall@5 (primary), absolute values",
+  "recall_at_5": 0.3,
+  "recall_at_1": 0.1,
+  "mrr_at_10": 0.182,
+  "n_questions": 200,
+  "n_hits_at_5": 60,
+  "per_section_recall": {
+    "adverse_reactions": 0.353,
+    "boxed_warning": 0.0,
+    "contraindications": 0.176,
+    "description": 0.684,
+    "dosage_and_administration": 0.333,
+    "drug_interactions": 0.056,
+    "how_supplied": 0.5,
+    "indications_and_usage": 0.222,
+    "mechanism_of_action": 0.118,
+    "overdosage": 0.353,
+    "storage_and_handling": 0.429,
+    "warnings_and_cautions": 0.412
+  },
+  "per_section_n": {
+    "adverse_reactions": 17,
+    "boxed_warning": 17,
+    "contraindications": 17,
+    "description": 19,
+    "dosage_and_administration": 18,
+    "drug_interactions": 18,
+    "how_supplied": 18,
+    "indications_and_usage": 18,
+    "mechanism_of_action": 17,
+    "overdosage": 17,
+    "storage_and_handling": 7,
+    "warnings_and_cautions": 17
+  },
+  "n_labels": 5000,
+  "n_chunks": 323280,
+  "config": {
+    "chunk_size_chars": 1000,
+    "overlap_chars": 100,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "embedding_dim": 384,
+    "k_retrieved": 10,
+    "hit_rule": "same set_id and chunk overlaps gold section by >= min(200, section length) chars"
+  },
+  "timing": {
+    "embed_seconds": 537.0,
+    "search_ms_per_query": 3.63,
+    "device": "mps"
+  },
+  "manifest": {
+    "openfda_export_date": "2026-11-05",
+    "seed": 42,
+    "target_size": 5000,
+    "labels_total_in_export": 262907,
+    "human_rx_labels_seen": 34555,
+    "labels_kept": 5000,
+    "sections_kept": 85150,
+    "split_counts": {
+      "extraction_train": 4058,
+      "retrieval_eval": 463,
+      "extraction_test": 479
+    }
+  },
+  "gold_file_sha256": "11c6a3b53fc9ee979aeaeb7e975b90340a77c0d38ae6cf08212b716aa8130636",
+  "run_at": "2026-11-06T03:46:48+00:00",
+  "machine": "macOS-26.6.2-arm64-arm-64bit"
+}

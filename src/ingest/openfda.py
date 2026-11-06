@@ -35,7 +35,7 @@ SECTIONS = [
     "information_for_patients",
 ]
 
-RX_PRODUCT_TYPE = "HUMAN PRESCRIPTION DRUG LABEL"
+RX_PRODUCT_TYPE = "HUMAN PRESCRIPTION DRUG"  # exact value used in the openFDA bulk files
 MIN_SECTION_CHARS = 100      # a section shorter than this is treated as empty
 MIN_SECTIONS_PER_LABEL = 4   # skip stub labels with almost no content
 

@@ -25,7 +25,7 @@ def make_raw(set_id="abc", brand=("Zestril",), generic=("lisinopril",), n_sectio
             "brand_name": list(brand),
             "generic_name": list(generic),
             "manufacturer_name": ["Acme Pharma"],
-            "product_type": ["HUMAN PRESCRIPTION DRUG LABEL" if rx else "HUMAN OTC DRUG LABEL"],
+            "product_type": ["HUMAN PRESCRIPTION DRUG" if rx else "HUMAN OTC DRUG"],
         },
     }
     for s in sections:

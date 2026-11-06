@@ -89,32 +89,39 @@ def build_gold(labels, sections_by_label, n_questions=200, seed=42):
 
     quota = math.ceil(n_questions / len(TEMPLATES))
     taken = Counter()
+    used = set()
     gold = []
-    for lab in pool:
-        if len(gold) >= n_questions:
-            break
-        name = lab["drug_name"]
-        disambiguated = False
-        if counts[norm_name(name)] > 1:
-            # Same name on several labels: add the manufacturer, but only if that is unique.
-            if not lab["manufacturer"] or pair_counts[(norm_name(name), norm_name(lab["manufacturer"]))] > 1:
+    # Pass 1 balances sections with a per-section quota. Pass 2 (no quota) only fills
+    # any shortfall, because rare sections (e.g. boxed_warning) may run out of labels.
+    for section_quota in (quota, math.inf):
+        for lab in pool:
+            if len(gold) >= n_questions:
+                break
+            if lab["set_id"] in used:
                 continue
-            name = f"{name} ({lab['manufacturer']})"
-            disambiguated = True
-        texts = sections_by_label[lab["set_id"]]
-        options = [s for s in TEMPLATES if s in texts and len(texts[s]) >= MIN_SECTION_CHARS
-                   and taken[s] < quota]
-        if not options:
-            continue
-        section = rng.choice(sorted(options))
-        template = rng.choice(TEMPLATES[section])
-        taken[section] += 1
-        gold.append({
-            "qid": f"q{len(gold) + 1:04d}",
-            "question": template.format(d=name),
-            "set_id": lab["set_id"],
-            "section": section,
-            "drug_name": lab["drug_name"],
-            "disambiguated": disambiguated,
-        })
+            name = lab["drug_name"]
+            disambiguated = False
+            if counts[norm_name(name)] > 1:
+                # Same name on several labels: add the manufacturer, but only if that is unique.
+                if not lab["manufacturer"] or pair_counts[(norm_name(name), norm_name(lab["manufacturer"]))] > 1:
+                    continue
+                name = f"{name} ({lab['manufacturer']})"
+                disambiguated = True
+            texts = sections_by_label[lab["set_id"]]
+            options = [s for s in TEMPLATES if s in texts and len(texts[s]) >= MIN_SECTION_CHARS
+                       and taken[s] < section_quota]
+            if not options:
+                continue
+            section = rng.choice(sorted(options))
+            template = rng.choice(TEMPLATES[section])
+            taken[section] += 1
+            used.add(lab["set_id"])
+            gold.append({
+                "qid": f"q{len(gold) + 1:04d}",
+                "question": template.format(d=name),
+                "set_id": lab["set_id"],
+                "section": section,
+                "drug_name": lab["drug_name"],
+                "disambiguated": disambiguated,
+            })
     return gold
