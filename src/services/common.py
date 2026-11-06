@@ -20,3 +20,12 @@ CHUNK_URL = os.getenv("CHUNK_URL", f"http://127.0.0.1:{PORTS['chunk']}")
 
 PINECONE_INDEX = os.getenv("PINECONE_INDEX", "fda-labels")
 PINECONE_NAMESPACE = os.getenv("PINECONE_NAMESPACE", "naive-v1")   # one namespace per pipeline version
+
+# Phase 2 pipeline (selected with PIPELINE=v2 when starting the query service)
+PIPELINE = os.getenv("PIPELINE", "v1")
+CHUNK_DB_V2 = Path(os.getenv("CHUNK_DB_V2", DATA_DIR / "chunks_v2.sqlite"))
+PINECONE_NAMESPACE_V2 = os.getenv("PINECONE_NAMESPACE_V2", "v2")
+PIPELINE_CONFIG = DATA_DIR / "pipeline_v2.json"      # which switches the ablation chose (written by scripts/build_index_v2.py)
+ANSWER_URL = os.getenv("ANSWER_URL", "http://127.0.0.1:8005")
+QUERY_URL = os.getenv("QUERY_URL", f"http://127.0.0.1:{PORTS['query']}")
+PORTS["answer"] = 8005

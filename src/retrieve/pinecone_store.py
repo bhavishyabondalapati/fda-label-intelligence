@@ -42,6 +42,15 @@ def to_metadata(chunk_id, set_id, drug, route, section):
             "route": (route or "")[:MAX_META_STR], "section": section or ""}
 
 
+def to_metadata_v2(chunk_id, set_id, drug, route, section):
+    """Phase 2 adds two normalised fields so queries can filter on drug (+ route)."""
+    from src.eval.gold import norm_name
+    meta = to_metadata(chunk_id, set_id, drug, route, section)
+    meta["drug_norm"] = norm_name(drug or "")[:MAX_META_STR]
+    meta["route_norm"] = (route or "").strip().lower()[:MAX_META_STR]
+    return meta
+
+
 def upsert_with_retries(index, records, namespace, attempts=6):
     """records: list of {"id", "values", "metadata"}. Retries with exponential backoff."""
     delay = 1.0

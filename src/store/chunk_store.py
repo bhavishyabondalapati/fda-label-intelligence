@@ -74,3 +74,14 @@ class ChunkStore:
                 yield from rows
         finally:
             con.close()
+
+    def iter_rows_in_order(self, batch=5000):
+        """Yield full row dicts (including text) in insertion order. Used to build BM25 at startup."""
+        con = self._connect(read_only=True)
+        try:
+            cur = con.execute('SELECT chunk_id,set_id,drug,route,section,start,"end",text FROM chunks ORDER BY n')
+            while rows := cur.fetchmany(batch):
+                for r in rows:
+                    yield dict(zip(COLUMNS, r))
+        finally:
+            con.close()

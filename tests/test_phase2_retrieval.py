@@ -48,3 +48,61 @@ def test_drug_detector_longest_match_and_route():
 
 def test_rrf_prefers_items_ranked_high_in_both_lists():
     assert rrf([[1, 2, 3], [3, 1, 4]])[:2] == [1, 3]
+
+
+# ---------- the whole pipeline with fakes (no Pinecone, no models) ----------
+class FakeIndex:
+    """Pretends to be Pinecone: returns a fixed ranking and remembers the last query it got."""
+    def __init__(self, ids):
+        self.ids, self.last = ids, None
+
+    def query(self, **kw):
+        from types import SimpleNamespace
+        self.last = kw
+        return SimpleNamespace(matches=[SimpleNamespace(id=i, score=1 - n / 10) for n, i in enumerate(self.ids)])
+
+
+class FakeStore:
+    def __init__(self, rows):
+        self.rows = {r["chunk_id"]: r for r in rows}
+
+    def get_many(self, ids):
+        return {i: self.rows[i] for i in ids if i in self.rows}
+
+
+def _rows():
+    mk = lambda i, drug, text: {"chunk_id": f"c{i}", "set_id": f"s{i}", "drug": drug, "route": "ORAL",
+                                "section": "overdosage", "start": 0, "end": len(text), "text": text}
+    return [mk(0, "Aspirin", "aspirin overdose text"), mk(1, "Warfarin", "warfarin bleeding overdose"),
+            mk(2, "Warfarin", "warfarin tablets supplied")]
+
+
+def test_pipeline_filter_hybrid_and_rerank_order():
+    from src.retrieve.pipeline import Pipeline
+    rows = _rows()
+    det = DrugDetector([{"drug_name": r["drug"], "route": r["route"]} for r in rows])
+    bm25 = BM25([r["text"] for r in rows])
+
+    class Reranker:                                   # prefers the chunk that says "bleeding"
+        def predict(self, pairs, **kw):
+            return [1.0 if "bleeding" in t else 0.0 for _, t in pairs]
+
+    index = FakeIndex(["c0", "c1", "c2"])
+    p = Pipeline(lambda q: [0.0], index, "ns", FakeStore(rows), header=False, detector=det, bm25=bm25,
+                 reranker=Reranker(), rows=rows)
+    results, timings, detected = p.search("What happens in an overdose of Warfarin?", top_k=2)
+    assert detected == ("warfarin", None)
+    assert index.last["filter"] == {"drug_norm": {"$eq": "warfarin"}}      # drug detected -> Pinecone filter
+    assert results[0]["chunk_id"] == "c1" and len(results) == 2            # reranker put "bleeding" first
+    assert {"embed", "pinecone", "bm25", "lookup", "rerank", "total"} <= set(timings)
+
+
+def test_pipeline_without_switches_is_plain_dense_search():
+    from src.retrieve.pipeline import Pipeline
+    rows = _rows()
+    index = FakeIndex(["c2", "c0", "c1"])
+    p = Pipeline(lambda q: [0.0], index, "ns", FakeStore(rows), use_filter=False, use_hybrid=False,
+                 use_rerank=False)
+    results, timings, detected = p.search("anything", top_k=2)
+    assert [r["chunk_id"] for r in results] == ["c2", "c0"] and detected is None
+    assert "filter" not in index.last and index.last["top_k"] == 2
