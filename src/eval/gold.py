@@ -73,7 +73,7 @@ def drug_key(label):
     return (norm_name(label["drug_name"]), label["route"].strip().lower())
 
 
-def build_gold(labels, sections_by_label, n_questions=200, seed=42):
+def build_gold(labels, sections_by_label, n_questions=200, seed=42, split="retrieval_eval", exclude_keys=frozenset()):
     """labels: list of label meta dicts. sections_by_label: set_id -> {section: text}.
 
     Questions name only the drug (no manufacturer): any label with the same drug name and
@@ -81,13 +81,17 @@ def build_gold(labels, sections_by_label, n_questions=200, seed=42):
     more than one route in the corpus gets the route added to the question text, e.g.
     "Lidocaine (transdermal)", so the question says which one it means. Such a label with
     no route recorded cannot be asked about unambiguously and is skipped.
+
+    split / exclude_keys are used only for the DEV set (Phase 2): questions come from a different
+    split, and any label whose (drug, route) also appears in eval-v1's split is left out, so dev
+    and eval-v1 share no drug. The defaults reproduce eval-v1 exactly.
     """
     rng = random.Random(seed)
     routes_by_name = {}
     for lab in labels:
         routes_by_name.setdefault(norm_name(lab["drug_name"]), set()).add(lab["route"].strip().lower())
 
-    pool = sorted((lab for lab in labels if lab["split"] == "retrieval_eval"),
+    pool = sorted((lab for lab in labels if lab["split"] == split and drug_key(lab) not in exclude_keys),
                   key=lambda lab: lab["set_id"])  # sorted first so shuffle is reproducible
     rng.shuffle(pool)
 
