@@ -20,8 +20,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from src.chunk.naive import CHUNK_SIZE, OVERLAP, join_label, naive_chunks  # noqa: E402
-from src.eval.gold import drug_key  # noqa: E402
-from src.eval.metrics import chunk_hits_gold, chunk_hits_relevant, mrr, recall_at_k  # noqa: E402
+from src.eval.score import EvalContext, score_rankings  # noqa: E402
 from src.retrieve.dense import DenseIndex  # noqa: E402
 
 K = 10          # we retrieve 10 so MRR@10 can be computed; recall@5 uses the first 5
@@ -76,52 +75,36 @@ def main():
     # 3. Answer the gold questions.
     gold = list(read_jsonl(args.gold))
     labels = {l["set_id"]: l for l in read_jsonl(args.data_dir / "labels.jsonl")}
-    key_of = {sid: drug_key(l) for sid, l in labels.items()}     # (normalized name, route)
     q_vecs = embed_texts(model, [g["question"] for g in gold], show_progress=False)
     index = DenseIndex(vectors)
     t0 = time.time()
     top = index.search(q_vecs, k=K)
     search_ms_per_query = round((time.time() - t0) / len(gold) * 1000, 2)
 
-    # 4. Score. Two rules (see PLAN.md, 2026-11-05 note):
+    # 4. Score with the shared scorer (src/eval/score.py). Two rules (see PLAN.md amendments):
     #    RELAXED (primary): chunk is from ANY label with the same drug name + route as the
     #                       gold label and covers that label's copy of the gold section.
     #    STRICT (cross-check): chunk is from the exact gold label and covers the gold section.
-    gold_key = {g["qid"]: key_of[g["set_id"]] for g in gold}
-    rel_flags, strict_flags, per_section = [], [], defaultdict(list)
-    for g, row in zip(gold, top):
-        gspan = label_spans[g["set_id"]][g["section"]]
-        r_row, s_row = [], []
-        for idx in row:
-            set_id, start, end = chunk_meta[idx]
-            own_span = label_spans[set_id].get(g["section"])
-            r_row.append(chunk_hits_relevant(key_of[set_id], start, end, gold_key[g["qid"]], own_span))
-            s_row.append(chunk_hits_gold(set_id, start, end, g["set_id"], gspan))
-        rel_flags.append(r_row)
-        strict_flags.append(s_row)
-        per_section[g["section"]].append(any(r_row[:5]))
+    ctx = EvalContext(labels, label_spans)
+    rankings = [[chunk_meta[idx] for idx in row] for row in top]
+    scored = score_rankings(gold, rankings, ctx)
+    rel_flags = scored["rel_flags"]
 
-    def summary(flags):
-        return {"recall_at_1": round(recall_at_k([f[:1] for f in flags]), 4),
-                "recall_at_5": round(recall_at_k([f[:5] for f in flags]), 4),
-                "mrr_at_10": round(mrr(flags), 4),
-                "n_hits_at_5": int(sum(any(f[:5]) for f in flags))}
-
-    # How many labels in the corpus count as relevant for a typical question (context only).
-    key_counts = defaultdict(int)
-    for sid, k in key_of.items():
+    key_counts = defaultdict(int)       # how many labels count as relevant per question (context only)
+    for k in ctx.key_of.values():
         key_counts[k] += 1
     result = {
         "system": "baseline",
         "description": "naive fixed-size chunks, all-MiniLM-L6-v2, dense only, local exact numpy index",
         "relevance_rule": "relaxed (primary): same normalized drug name + route as the gold label, chunk covers "
                           "that label's copy of the gold section",
-        **summary(rel_flags),
-        "strict_crosscheck": {"rule": "exact gold set_id, chunk covers gold section", **summary(strict_flags)},
+        **scored["relaxed"],
+        "strict_crosscheck": {"rule": "exact gold set_id, chunk covers gold section", **scored["strict"]},
         "n_questions": len(gold),
-        "mean_relevant_labels_per_question": round(sum(key_counts[gold_key[g["qid"]]] for g in gold) / len(gold), 2),
-        "per_section_recall_at_5": {s: round(sum(v) / len(v), 3) for s, v in sorted(per_section.items())},
-        "per_section_n": {s: len(v) for s, v in sorted(per_section.items())},
+        "mean_relevant_labels_per_question": round(
+            sum(key_counts[ctx.key_of[g["set_id"]]] for g in gold) / len(gold), 2),
+        "per_section_recall_at_5": scored["per_section_recall_at_5"],
+        "per_section_n": scored["per_section_n"],
         "n_labels": len(sections),
         "n_chunks": len(chunk_texts),
         "config": {
