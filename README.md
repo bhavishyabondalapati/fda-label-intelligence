@@ -2,7 +2,7 @@
 
 A GenAI document-processing platform over public FDA drug labels (openFDA, public domain). It chunks, embeds, searches, and extracts structured fields from ~5K prescription drug labels. Every performance number in this repo is produced by a script in this repo, as a relative improvement over a stated baseline.
 
-> **Status: Phase 2 (better retrieval + LangChain/Bedrock answers; generation run pending Bedrock access).** Eval set and hit rule are frozen as git tag `eval-v1`.
+> **Status: Phase 2 complete (better retrieval + LangChain/Bedrock cited answers).** Eval set and hit rule are frozen as git tag `eval-v1`.
 >
 > Phase 0 was data, eval set and baseline. See [PLAN.md](PLAN.md) for the full roadmap and exact metric definitions. This README is a stub and is completed in Phase 5.
 
@@ -63,4 +63,6 @@ python scripts/bench_latency.py --out results/latency_phase2_search.json --names
 python scripts/eval_generation.py                       # /answer check (needs Bedrock access, `aws login --profile sky`)
 python scripts/make_phase2_report.py                    # writes results/phase2.json
 ```
+Generation check (Haiku 4.5, `results/generation_phase2.json`): 15/15 answerable dev questions answered, all with citations that point at retrieved chunks (a valid citation does not prove the answer is faithful; Phase 3 validation covers that); 10/10 unanswerable questions (real drugs missing from the sample) refused with "not enough information". End-to-end latency p50 1.5 s, max 3.1 s (search part p50 about 0.26 s). 41.7K input + 4.2K output tokens, about $0.06.
+
 Answers: `POST :8005/answer` (LangChain retriever over the query service, Claude Haiku 4.5 on Bedrock us-east-2, profile `sky`). Answers cite chunk ids, citations are checked against what was retrieved, and token counts and cost go to `results/bedrock_usage.jsonl` with a hard budget cap.

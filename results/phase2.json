@@ -561,5 +561,27 @@
     "max": 236.1
    }
   }
+ },
+ "generation": {
+  "answerable": {
+   "n": 15,
+   "answered": 15,
+   "with_valid_citation": 15,
+   "with_invalid_citation": 0
+  },
+  "unanswerable": {
+   "n": 10,
+   "correctly_refused": 10
+  },
+  "latency_ms": {
+   "end_to_end_p50": 1520.0,
+   "end_to_end_max": 3140.0,
+   "search_part_p50": 255.0
+  },
+  "tokens": {
+   "input_total": 41737,
+   "output_total": 4224,
+   "est_cost_usd": 0.06286
+  }
  }
 }

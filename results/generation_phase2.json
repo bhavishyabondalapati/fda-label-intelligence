@@ -1,0 +1,616 @@
+{
+  "answerable": {
+    "n": 15,
+    "answered": 15,
+    "with_valid_citation": 15,
+    "with_invalid_citation": 0
+  },
+  "unanswerable": {
+    "n": 10,
+    "correctly_refused": 10
+  },
+  "latency_ms": {
+    "end_to_end_p50": 1520.0,
+    "end_to_end_max": 3140.0,
+    "search_part_p50": 255.0
+  },
+  "tokens": {
+    "input_total": 41737,
+    "output_total": 4224,
+    "est_cost_usd": 0.06286
+  },
+  "examples": [
+    {
+      "kind": "answerable",
+      "question": "How is Nystatin (topical) supplied?",
+      "answer": "Nystatin topical is supplied in multiple formulations:\n\n**Nystatin Ointment, USP** is available as 100,000 USP Nystatin Units per gram in 15 gram tubes (NDC 0713-0686-15) and 30 gram tubes (NDC 0713-0686-31) [8f87de59-33f2-32af-ae17-78bf30fb424d:5].\n\n**Nystatin Cream, USP** is supplied as 100,000 units per gram in 15 g tubes (NDC 13668-595-01) and 30 g tubes (NDC 13668-595-02) [559b5bd4-3564-4437-8d0a-fa3a972f8b83:3].\n\n**Nystatin topical powder, USP** is supplied as 100,000 units per gram in plastic squeeze bottles of 15g (NDC 75907-060-44), 30g (NDC 75907-060-30), and 60g (NDC 75907-060-60) [6bde84a1-341d-09ce-58b6-f9a653dc98c5:7].",
+      "answerable": true,
+      "citations": [
+        "8f87de59-33f2-32af-ae17-78bf30fb424d:5",
+        "559b5bd4-3564-4437-8d0a-fa3a972f8b83:3",
+        "6bde84a1-341d-09ce-58b6-f9a653dc98c5:7"
+      ],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "8f87de59-33f2-32af-ae17-78bf30fb424d:5",
+        "559b5bd4-3564-4437-8d0a-fa3a972f8b83:3",
+        "6bde84a1-341d-09ce-58b6-f9a653dc98c5:7",
+        "cf6b7c68-7769-1808-e053-2995a90aa426:6",
+        "f410ba07-9183-40a8-a2a6-46d3e9761470:5"
+      ],
+      "usage": {
+        "input_tokens": 1694,
+        "output_tokens": 296,
+        "cost_usd": 0.003174
+      },
+      "end_to_end_ms": 3140.5,
+      "search_ms": 560.6
+    },
+    {
+      "kind": "answerable",
+      "question": "When should IBU not be used?",
+      "answer": "Based on the provided context, IBU tablets should be avoided in late pregnancy because it may cause premature closure of the ductus arteriosus [3e45f971-b6f7-4ec5-9d8e-1b9127b6c0bd:47]. Additionally, the label notes that controlled clinical trials to establish the safety and effectiveness of IBU tablets in children have not been conducted [3e45f971-b6f7-4ec5-9d8e-1b9127b6c0bd:1], which suggests caution in pediatric use. Patients should also stop therapy and seek immediate medical attention if signs of anaphylactoid reactions occur [3e45f971-b6f7-4ec5-9d8e-1b9127b6c0bd:47].",
+      "answerable": true,
+      "citations": [
+        "3e45f971-b6f7-4ec5-9d8e-1b9127b6c0bd:47",
+        "3e45f971-b6f7-4ec5-9d8e-1b9127b6c0bd:1"
+      ],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "3e45f971-b6f7-4ec5-9d8e-1b9127b6c0bd:47",
+        "b0f03994-b744-4d66-95b7-8c86217882bc:47",
+        "3e45f971-b6f7-4ec5-9d8e-1b9127b6c0bd:1",
+        "ffec2f44-1144-4729-b43a-1db40ea6a8d3:1",
+        "678e2d16-33f3-67a7-e053-2991aa0a1132:1"
+      ],
+      "usage": {
+        "input_tokens": 1162,
+        "output_tokens": 187,
+        "cost_usd": 0.002097
+      },
+      "end_to_end_ms": 2174.4,
+      "search_ms": 305.2
+    },
+    {
+      "kind": "answerable",
+      "question": "What conditions is Multi-Vitamin with Fluoride used to treat?",
+      "answer": "Multi-Vitamin with Fluoride is used for supplementation of the diet with vitamins A, C, and D [880df628-5bba-4dc4-b557-1fcc822adba8:0]. The fluoride component (0.25 mg) provides fluoride for caries prophylaxis [880df628-5bba-4dc4-b557-1fcc822adba8:0]. It is recommended for children up to age 16 in areas where drinking water contains less than optimal levels of fluoride to help prevent dental caries [880df628-5bba-4dc4-b557-1fcc822adba8:0].",
+      "answerable": true,
+      "citations": [
+        "880df628-5bba-4dc4-b557-1fcc822adba8:0"
+      ],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "880df628-5bba-4dc4-b557-1fcc822adba8:0",
+        "880df628-5bba-4dc4-b557-1fcc822adba8:3",
+        "880df628-5bba-4dc4-b557-1fcc822adba8:2",
+        "880df628-5bba-4dc4-b557-1fcc822adba8:4",
+        "880df628-5bba-4dc4-b557-1fcc822adba8:1"
+      ],
+      "usage": {
+        "input_tokens": 1497,
+        "output_tokens": 156,
+        "cost_usd": 0.002277
+      },
+      "end_to_end_ms": 1577.5,
+      "search_ms": 229.3
+    },
+    {
+      "kind": "answerable",
+      "question": "What serious risks does Claravis carry a boxed warning for?",
+      "answer": "Claravis carries a boxed warning for embryo-fetal toxicity and contraindication in pregnancy [a31fd109-d0fd-4ab9-ba98-a3d64333c18d:0]. The warning states that Claravis can cause life-threatening birth defects, and there is an extremely high risk that life-threatening birth defects will result if pregnancy occurs while taking any amount of Claravis, even for short periods of time [a31fd109-d0fd-4ab9-ba98-a3d64333c18d:0]. Potentially any fetus exposed during pregnancy can be affected, and there are no accurate means of determining prenatally whether an exposed fetus has been affected [a31fd109-d0fd-4ab9-ba98-a3d64333c18d:0]. Because of this risk, Claravis is available only through a restricted program called the iPLEDGE REMS [a31fd109-d0fd-4ab9-ba98-a3d64333c18d:0].",
+      "answerable": true,
+      "citations": [
+        "a31fd109-d0fd-4ab9-ba98-a3d64333c18d:0"
+      ],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "a31fd109-d0fd-4ab9-ba98-a3d64333c18d:0",
+        "a31fd109-d0fd-4ab9-ba98-a3d64333c18d:1",
+        "a31fd109-d0fd-4ab9-ba98-a3d64333c18d:11",
+        "a31fd109-d0fd-4ab9-ba98-a3d64333c18d:17",
+        "a31fd109-d0fd-4ab9-ba98-a3d64333c18d:21"
+      ],
+      "usage": {
+        "input_tokens": 1624,
+        "output_tokens": 248,
+        "cost_usd": 0.002864
+      },
+      "end_to_end_ms": 2192.3,
+      "search_ms": 273.4
+    },
+    {
+      "kind": "answerable",
+      "question": "What are the storage and handling requirements for FABIOR?",
+      "answer": "FABIOR Foam should be stored at 20\u00b0C to 25\u00b0C (68\u00b0F to 77\u00b0F), with excursions permitted to 15\u00b0C to 30\u00b0C (59\u00b0F to 86\u00b0F) [ae0afed7-1d60-45fd-a08b-8db094618521:31]. The can should be stored upright and protected from freezing [ae0afed7-1d60-45fd-a08b-8db094618521:32]. Do not expose to heat or store at temperatures above 120\u00b0F (49\u00b0C) [ae0afed7-1d60-45fd-a08b-8db094618521:32]. The can should not be punctured or incinerated [ae0afed7-1d60-45fd-a08b-8db094618521:32]. Shake the can before use and hold it at an upright angle to dispense [ae0afed7-1d60-45fd-a08b-8db094618521:32].",
+      "answerable": true,
+      "citations": [
+        "ae0afed7-1d60-45fd-a08b-8db094618521:31",
+        "ae0afed7-1d60-45fd-a08b-8db094618521:32"
+      ],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "ae0afed7-1d60-45fd-a08b-8db094618521:32",
+        "ae0afed7-1d60-45fd-a08b-8db094618521:31",
+        "ae0afed7-1d60-45fd-a08b-8db094618521:34",
+        "ae0afed7-1d60-45fd-a08b-8db094618521:19",
+        "ae0afed7-1d60-45fd-a08b-8db094618521:7"
+      ],
+      "usage": {
+        "input_tokens": 1608,
+        "output_tokens": 245,
+        "cost_usd": 0.002833
+      },
+      "end_to_end_ms": 1963.1,
+      "search_ms": 279.3
+    },
+    {
+      "kind": "answerable",
+      "question": "What happens in an overdose of Boostervite?",
+      "answer": "In an overdose of Boostervite, acute ingestion of iron may cause nausea, vomiting, abdominal pain, and in severe cases, gastrointestinal bleeding, shock, cardiovascular collapse, and death [53efbf65-8844-8486-e063-6394a90a51d3:6]. Other symptoms may include pallor, cyanosis, melena (black tarry stools), drowsiness, and coma [53efbf65-8844-8486-e063-6394a90a51d3:6]. The estimated toxic dose of orally ingested elemental iron is approximately 300 mg/kg body weight [53efbf65-8844-8486-e063-6394a90a51d3:6]. Treatment includes supportive and symptomatic therapy, gastric lavage, intravenous fluids, oxygen therapy, and in severe cases, chelation therapy with agents like deferoxamine [53efbf65-8844-8486-e063-6394a90a51d3:6].",
+      "answerable": true,
+      "citations": [
+        "53efbf65-8844-8486-e063-6394a90a51d3:6"
+      ],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "53efbf65-8844-8486-e063-6394a90a51d3:6",
+        "53efbf65-8844-8486-e063-6394a90a51d3:0",
+        "53efbf65-8844-8486-e063-6394a90a51d3:5",
+        "53efbf65-8844-8486-e063-6394a90a51d3:1",
+        "53efbf65-8844-8486-e063-6394a90a51d3:4"
+      ],
+      "usage": {
+        "input_tokens": 1527,
+        "output_tokens": 251,
+        "cost_usd": 0.002782
+      },
+      "end_to_end_ms": 1918.0,
+      "search_ms": 212.7
+    },
+    {
+      "kind": "answerable",
+      "question": "What safety warnings apply to Ropivacaine Hydrochloride?",
+      "answer": "Several important safety warnings apply to Ropivacaine Hydrochloride:\n\nDelay in proper management of dose-related toxicity, underventilation, and/or altered sensitivity may lead to acidosis, cardiac arrest, and possibly death [da4a7675-97bf-4d2a-9fdc-c1b4b2999126:9]. Unintended intravenous injection is possible and may result in cardiac arrhythmia or cardiac arrest [da4a7675-97bf-4d2a-9fdc-c1b4b2999126:9]. Early warning signs of central nervous system toxicity include restlessness, anxiety, incoherent speech, light-headedness, numbness and tingling of the mouth and lips, metallic taste, tinnitus, dizziness, blurred vision, tremors, twitching, depression, or drowsiness [da4a7675-97bf-4d2a-9fdc-c1b4b2999126:18]. The drug should be used with caution in patients with hypotension, hypovolemia, or heart block [da4a7675-97bf-4d2a-9fdc-c1b4b2999126:12]. Ropivacaine hydrochloride is contraindicated in patients with known hypersensitivity to ropivacaine or to any local anesthetic agent of the amide type [da4a7675-97bf-4d2a-9fdc-c1b4b2999126:9].",
+      "answerable": true,
+      "citations": [
+        "da4a7675-97bf-4d2a-9fdc-c1b4b2999126:9",
+        "da4a7675-97bf-4d2a-9fdc-c1b4b2999126:18",
+        "da4a7675-97bf-4d2a-9fdc-c1b4b2999126:12"
+      ],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "da4a7675-97bf-4d2a-9fdc-c1b4b2999126:18",
+        "da4a7675-97bf-4d2a-9fdc-c1b4b2999126:9",
+        "da4a7675-97bf-4d2a-9fdc-c1b4b2999126:10",
+        "da4a7675-97bf-4d2a-9fdc-c1b4b2999126:13",
+        "da4a7675-97bf-4d2a-9fdc-c1b4b2999126:12"
+      ],
+      "usage": {
+        "input_tokens": 1640,
+        "output_tokens": 360,
+        "cost_usd": 0.00344
+      },
+      "end_to_end_ms": 2194.5,
+      "search_ms": 212.1
+    },
+    {
+      "kind": "answerable",
+      "question": "What safety warnings apply to AZELASTINE HYDROCHLORIDE (nasal)?",
+      "answer": "Azelastine hydrochloride nasal spray carries several important safety warnings:\n\n**Somnolence:** Patients should be cautioned against engaging in hazardous occupations requiring complete mental alertness and motor coordination, such as operating machinery or driving a motor vehicle, as somnolence has been reported in clinical trials [7902605c-944a-4d7e-a7d4-eb4a71bcacdb:3].\n\n**Alcohol and CNS Depressants:** Concurrent use with alcohol or other central nervous system depressants should be avoided because additional reductions in alertness and additional impairment of central nervous system performance may occur [7902605c-944a-4d7e-a7d4-eb4a71bcacdb:3].\n\n**Eye Contact:** Avoid spraying azelastine HCl nasal spray into the eyes [7902605c-944a-4d7e-a7d4-eb4a71bcacdb:2].",
+      "answerable": true,
+      "citations": [
+        "7902605c-944a-4d7e-a7d4-eb4a71bcacdb:3",
+        "7902605c-944a-4d7e-a7d4-eb4a71bcacdb:2"
+      ],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "cb0aca6d-ff9c-4239-8681-d212a6764ba9:3",
+        "7902605c-944a-4d7e-a7d4-eb4a71bcacdb:3",
+        "7902605c-944a-4d7e-a7d4-eb4a71bcacdb:2",
+        "cb0aca6d-ff9c-4239-8681-d212a6764ba9:45",
+        "7902605c-944a-4d7e-a7d4-eb4a71bcacdb:38"
+      ],
+      "usage": {
+        "input_tokens": 1812,
+        "output_tokens": 229,
+        "cost_usd": 0.002957
+      },
+      "end_to_end_ms": 1775.3,
+      "search_ms": 288.0
+    },
+    {
+      "kind": "answerable",
+      "question": "What strengths and package sizes does Scopolamine Trandermal System come in?",
+      "answer": "The Scopolamine Trandermal System comes in one strength: 1 mg/3 days [c89cc74e-9506-48e5-bbb7-26b454b498aa:3]. The system is a circular, flat, tan-colored transdermal patch imprinted with \"SCOP 1 mg/3 days\" in a repeating pattern [c89cc74e-9506-48e5-bbb7-26b454b498aa:3]. Each system contains 1.3 mg of scopolamine base and is designed to deliver approximately 1 mg of scopolamine to the systemic circulation over 3 days [c89cc74e-9506-48e5-bbb7-26b454b498aa:27], [c89cc74e-9506-48e5-bbb7-26b454b498aa:32].\n\nHowever, the context does not specify the package sizes available.",
+      "answerable": true,
+      "citations": [
+        "c89cc74e-9506-48e5-bbb7-26b454b498aa:3",
+        "c89cc74e-9506-48e5-bbb7-26b454b498aa:27",
+        "c89cc74e-9506-48e5-bbb7-26b454b498aa:32"
+      ],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "c89cc74e-9506-48e5-bbb7-26b454b498aa:28",
+        "c89cc74e-9506-48e5-bbb7-26b454b498aa:27",
+        "c89cc74e-9506-48e5-bbb7-26b454b498aa:3",
+        "c89cc74e-9506-48e5-bbb7-26b454b498aa:30",
+        "c89cc74e-9506-48e5-bbb7-26b454b498aa:32"
+      ],
+      "usage": {
+        "input_tokens": 1772,
+        "output_tokens": 222,
+        "cost_usd": 0.002882
+      },
+      "end_to_end_ms": 1879.6,
+      "search_ms": 283.4
+    },
+    {
+      "kind": "answerable",
+      "question": "How should Sodium Sulfacetamide 8% Sulfur 4% CLEANSER be stored?",
+      "answer": "Sodium Sulfacetamide 8% Sulfur 4% CLEANSER should be stored at 20\u00b0C to 25\u00b0C (68\u00b0F to 77\u00b0F), with excursions permitted between 15\u00b0C and 30\u00b0C (59\u00b0F to 86\u00b0F) [d44a7a26-ea6b-469f-931a-812a031868ea:4]. Brief exposure to temperatures up to 40\u00b0C (104\u00b0F) may be tolerated provided the mean kinetic temperature does not exceed 25\u00b0C (77\u00b0F), though such exposure should be minimized [d44a7a26-ea6b-469f-931a-812a031868ea:4]. The product should be protected from freezing [d44a7a26-ea6b-469f-931a-812a031868ea:4].",
+      "answerable": true,
+      "citations": [
+        "d44a7a26-ea6b-469f-931a-812a031868ea:4"
+      ],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "d44a7a26-ea6b-469f-931a-812a031868ea:4",
+        "d44a7a26-ea6b-469f-931a-812a031868ea:2",
+        "d44a7a26-ea6b-469f-931a-812a031868ea:0",
+        "d44a7a26-ea6b-469f-931a-812a031868ea:1",
+        "d44a7a26-ea6b-469f-931a-812a031868ea:3"
+      ],
+      "usage": {
+        "input_tokens": 1713,
+        "output_tokens": 201,
+        "cost_usd": 0.002718
+      },
+      "end_to_end_ms": 1520.1,
+      "search_ms": 254.8
+    },
+    {
+      "kind": "answerable",
+      "question": "What is the recommended dosage of FABHALTA?",
+      "answer": "The recommended dosage of FABHALTA is 200 mg orally twice daily without regard to food [a76b5845-6e21-4d3b-ad07-cd8df1b60bee:5]. Capsules should be swallowed whole and not opened, broken, or chewed [a76b5845-6e21-4d3b-ad07-cd8df1b60bee:5].",
+      "answerable": true,
+      "citations": [
+        "a76b5845-6e21-4d3b-ad07-cd8df1b60bee:5"
+      ],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "a76b5845-6e21-4d3b-ad07-cd8df1b60bee:5",
+        "a76b5845-6e21-4d3b-ad07-cd8df1b60bee:4",
+        "a76b5845-6e21-4d3b-ad07-cd8df1b60bee:43",
+        "a76b5845-6e21-4d3b-ad07-cd8df1b60bee:23",
+        "a76b5845-6e21-4d3b-ad07-cd8df1b60bee:28"
+      ],
+      "usage": {
+        "input_tokens": 1679,
+        "output_tokens": 101,
+        "cost_usd": 0.002184
+      },
+      "end_to_end_ms": 1406.8,
+      "search_ms": 331.4
+    },
+    {
+      "kind": "answerable",
+      "question": "How is Chlordiazepoxide Hydrochloride and Clidinium Bromide supplied?",
+      "answer": "Chlordiazepoxide Hydrochloride and Clidinium Bromide capsules are available in green opaque capsules, each containing 5 mg chlordiazepoxide hydrochloride and 2.5 mg clidinium bromide [19fdde81-e0f2-4269-bd57-252a759b7593:43]. They are supplied in bottles of 100 (NDC 67877-731-01), bottles of 500 (NDC 67877-731-05), and blister packs of (10x10) 100 capsules per carton (NDC 67877-731-38) [19fdde81-e0f2-4269-bd57-252a759b7593:44]. The capsules should be stored at 20\u00b0C to 25\u00b0C (68\u00b0F to 77\u00b0F) with excursions permitted between 15\u00b0C to 30\u00b0C (59\u00b0F to 86\u00b0F), and dispensed in tight, light-resistant containers [19fdde81-e0f2-4269-bd57-252a759b7593:44].",
+      "answerable": true,
+      "citations": [
+        "19fdde81-e0f2-4269-bd57-252a759b7593:43",
+        "19fdde81-e0f2-4269-bd57-252a759b7593:44"
+      ],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "19fdde81-e0f2-4269-bd57-252a759b7593:44",
+        "3cce1912-e7c8-4f30-bd76-dfa4b9d65bac:29",
+        "19fdde81-e0f2-4269-bd57-252a759b7593:43",
+        "19fdde81-e0f2-4269-bd57-252a759b7593:21",
+        "19fdde81-e0f2-4269-bd57-252a759b7593:33"
+      ],
+      "usage": {
+        "input_tokens": 1789,
+        "output_tokens": 265,
+        "cost_usd": 0.003114
+      },
+      "end_to_end_ms": 1837.3,
+      "search_ms": 268.6
+    },
+    {
+      "kind": "answerable",
+      "question": "What conditions is TENORMIN used to treat?",
+      "answer": "TENORMIN is used to treat three main conditions:\n\n1. **Hypertension**: TENORMIN is indicated for the treatment of hypertension to lower blood pressure and reduce the risk of fatal and non-fatal cardiovascular events, primarily strokes and myocardial infarctions [6e850b1e-28a4-4ff8-8ed7-bb0b29faa28a:0].\n\n2. **Angina Pectoris Due to Coronary Atherosclerosis**: TENORMIN is indicated for the long-term management of patients with angina pectoris [6e850b1e-28a4-4ff8-8ed7-bb0b29faa28a:2].\n\n3. **Acute Myocardial Infarction**: TENORMIN is indicated in the management of hemodynamically stable patients with definite or suspected acute myocardial infarction [6e850b1e-28a4-4ff8-8ed7-bb0b29faa28a:2].",
+      "answerable": true,
+      "citations": [
+        "6e850b1e-28a4-4ff8-8ed7-bb0b29faa28a:0",
+        "6e850b1e-28a4-4ff8-8ed7-bb0b29faa28a:2"
+      ],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "6e850b1e-28a4-4ff8-8ed7-bb0b29faa28a:0",
+        "6e850b1e-28a4-4ff8-8ed7-bb0b29faa28a:13",
+        "6e850b1e-28a4-4ff8-8ed7-bb0b29faa28a:2",
+        "6e850b1e-28a4-4ff8-8ed7-bb0b29faa28a:22",
+        "6e850b1e-28a4-4ff8-8ed7-bb0b29faa28a:1"
+      ],
+      "usage": {
+        "input_tokens": 1480,
+        "output_tokens": 245,
+        "cost_usd": 0.002705
+      },
+      "end_to_end_ms": 1514.2,
+      "search_ms": 266.1
+    },
+    {
+      "kind": "answerable",
+      "question": "What is the boxed warning for TRAMADOL HYDROCHLORIDE?",
+      "answer": "Tramadol hydrochloride has several serious boxed warnings:\n\n1. **Addiction, Abuse, and Misuse**: Tramadol hydrochloride exposes patients to risks of opioid addiction, abuse, and misuse, which can lead to overdose and death. Patients should be assessed for risk prior to prescribing and monitored regularly for these behaviors [42de8c3a-0441-5d46-e063-6294a90a2079:4].\n\n2. **Respiratory Depression**: Serious, life-threatening, or fatal respiratory depression may occur, requiring close monitoring especially during initiation or dose increases [42de8c3a-0441-5d46-e063-6294a90a2079:4].\n\n3. **Accidental Ingestion**: Accidental ingestion of tramadol hydrochloride tablets, especially by children, can result in fatal overdose [42de8c3a-0441-5d46-e063-6294a90a2079:4].\n\n4. **Concomitant Use with CNS Depressants**: Concomitant use with benzodiazepines or other CNS depressants may result in profound sedation, respiratory depression, coma, and death [42de8c3a-0441-5d46-e063-6294a90a2079:4].\n\n5. **Medication Errors**: For oral solution, dosing errors due to confusion between mg and mL can result in accidental overdose and death [aea56ff9-94ac-47a8-8f15-8790d538973b:4].",
+      "answerable": true,
+      "citations": [
+        "42de8c3a-0441-5d46-e063-6294a90a2079:4",
+        "aea56ff9-94ac-47a8-8f15-8790d538973b:4"
+      ],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "aea56ff9-94ac-47a8-8f15-8790d538973b:4",
+        "f79fda81-f09a-4a08-babc-6bd3bb3ee661:5",
+        "42de8c3a-0441-5d46-e063-6294a90a2079:4",
+        "728157e2-d153-4ea0-81eb-36599dc7dfda:4",
+        "f6f6069b-cc75-4b87-afa5-b83001b543e0:4"
+      ],
+      "usage": {
+        "input_tokens": 1649,
+        "output_tokens": 379,
+        "cost_usd": 0.003544
+      },
+      "end_to_end_ms": 2675.3,
+      "search_ms": 266.4
+    },
+    {
+      "kind": "answerable",
+      "question": "Which medications interact with Zegalogue?",
+      "answer": "According to the FDA label, the following medications interact with Zegalogue [14704879-872c-4967-8779-04a3bbdfb4e6:12]:\n\n1. **Beta-blockers**: Patients taking beta-blockers may have a transient increase in pulse and blood pressure when given ZEGALOGUE [14704879-872c-4967-8779-04a3bbdfb4e6:12].\n\n2. **Indomethacin**: In patients taking indomethacin, ZEGALOGUE may lose its ability to raise blood glucose or may even produce hypoglycemia [14704879-872c-4967-8779-04a3bbdfb4e6:12].\n\n3. **Warfarin**: ZEGALOGUE may increase the anticoagulant effect of warfarin [14704879-872c-4967-8779-04a3bbdfb4e6:12].",
+      "answerable": true,
+      "citations": [
+        "14704879-872c-4967-8779-04a3bbdfb4e6:12"
+      ],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "14704879-872c-4967-8779-04a3bbdfb4e6:11",
+        "14704879-872c-4967-8779-04a3bbdfb4e6:10",
+        "14704879-872c-4967-8779-04a3bbdfb4e6:12",
+        "14704879-872c-4967-8779-04a3bbdfb4e6:6",
+        "14704879-872c-4967-8779-04a3bbdfb4e6:18"
+      ],
+      "usage": {
+        "input_tokens": 1618,
+        "output_tokens": 221,
+        "cost_usd": 0.002723
+      },
+      "end_to_end_ms": 1530.2,
+      "search_ms": 186.8
+    },
+    {
+      "kind": "unanswerable",
+      "question": "What is Ozempic indicated for?",
+      "answer": "Not enough information in the retrieved labels.\n\nThe context provided contains information about olmesartan medoxomil, not Ozempic. Ozempic is not mentioned in any of the retrieved label chunks.",
+      "answerable": false,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "cf4f62f9-5a00-4313-b703-ec0ac6380b5e:3",
+        "949e6bad-fcb2-42f2-b9c8-e5620ef5ccd5:3",
+        "79e2620d-6554-4e03-8087-59ec2e4dd75b:3",
+        "2bb63404-7d54-4482-8377-6ff02052892a:3",
+        "6e602f81-1cc3-4ae1-8bdf-85572e35cf73:3"
+      ],
+      "usage": {
+        "input_tokens": 1533,
+        "output_tokens": 48,
+        "cost_usd": 0.001773
+      },
+      "end_to_end_ms": 1098.1,
+      "search_ms": 225.7
+    },
+    {
+      "kind": "unanswerable",
+      "question": "What are the side effects of Zyxomadrine?",
+      "answer": "Not enough information in the retrieved labels.\n\nThe context provided does not contain information about a drug called Zyxomadrine. The labels included are for Zileuton, Digenyx, Zonisamide, and Zolmitriptan, but not Zyxomadrine.",
+      "answerable": false,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "fd382540-b390-4e86-a94a-988ea89c93a8:83",
+        "512f3202-4ecf-1218-e063-6294a90a0544:6",
+        "3164d438-90bf-420a-9a56-5498b987f91c:45",
+        "994e3ce0-f30b-47b1-aa42-b1ed37fb7c12:45",
+        "0b37962f-253b-4dc9-9ed2-ff44d2370e51:66"
+      ],
+      "usage": {
+        "input_tokens": 1704,
+        "output_tokens": 71,
+        "cost_usd": 0.002059
+      },
+      "end_to_end_ms": 1161.9,
+      "search_ms": 229.2
+    },
+    {
+      "kind": "unanswerable",
+      "question": "What is the recommended dosage of Wegovy?",
+      "answer": "Not enough information in the retrieved labels.\n\nThe context provided does not contain information about Wegovy or its dosage. The retrieved labels cover IMAAVY, Dilantin Infatabs, Pregabalin, and Vybrique, but not Wegovy.",
+      "answerable": false,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "8886274c-f2b2-48af-85c1-2f90bfe304b8:1",
+        "ca119a89-2394-4d34-8078-cd1fa4e8e2f1:2",
+        "1b731dd5-b000-4c38-bfc8-2505b076e316:4",
+        "34846423-e747-42c5-9bcd-f99c557c4f67:4",
+        "9213fec1-e0c0-4ef7-9718-d97922a3f4d8:1"
+      ],
+      "usage": {
+        "input_tokens": 1709,
+        "output_tokens": 64,
+        "cost_usd": 0.002029
+      },
+      "end_to_end_ms": 1353.5,
+      "search_ms": 268.5
+    },
+    {
+      "kind": "unanswerable",
+      "question": "How does Keytruda work in the body?",
+      "answer": "Not enough information in the retrieved labels.\n\nThe context provided contains information about phenobarbital, butalbital, and levodopa, but does not include any information about Keytruda or its mechanism of action.",
+      "answerable": false,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "9ad46e1e-4de6-4d30-a2cf-149fcffb5e33:34",
+        "472da201-698e-4d2b-8c53-595461d85bb6:35",
+        "e0276d32-80b9-4e06-85f9-3421a013be39:34",
+        "c018be7d-f7b8-45e2-97b8-8e7a71740657:24",
+        "739b2f8d-8b5c-4b57-b5d4-5e6429c7c1ed:38"
+      ],
+      "usage": {
+        "input_tokens": 1556,
+        "output_tokens": 49,
+        "cost_usd": 0.001801
+      },
+      "end_to_end_ms": 1123.9,
+      "search_ms": 370.2
+    },
+    {
+      "kind": "unanswerable",
+      "question": "What is the capital of France?",
+      "answer": "Not enough information in the retrieved labels.\n\nThe context provided contains information about Benzonatate and Celecoxib prescription drug labels, but does not contain any information about geography or the capital of France.",
+      "answerable": false,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "e6f5f2c2-1c59-405c-97bf-ee73740869d2:0",
+        "a7b12862-1c9f-4712-93e6-a859b24728c2:0",
+        "0e8f2562-2449-430f-85bb-f9195644cdfa:0",
+        "1bf407db-8bc6-4aea-8bcc-eaa4c24cb7a6:83",
+        "2fbaa580-f33a-417d-e063-6294a90ad7df:82"
+      ],
+      "usage": {
+        "input_tokens": 1698,
+        "output_tokens": 47,
+        "cost_usd": 0.001933
+      },
+      "end_to_end_ms": 1009.1,
+      "search_ms": 244.1
+    },
+    {
+      "kind": "unanswerable",
+      "question": "Who won the 2018 World Cup?",
+      "answer": "Not enough information in the retrieved labels.\n\nThe context provided contains information about FDA prescription drug labels for radiopharmaceuticals and medications, and does not contain any information about the 2018 World Cup.",
+      "answerable": false,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "f8afb06c-f4c3-46f0-8f8b-0bc9e072ce47:23",
+        "982b9df4-0772-4de1-a01e-794a77518500:35",
+        "c70a9c8e-46b0-489d-bbda-2d7fca4b629f:72",
+        "982b9df4-0772-4de1-a01e-794a77518500:25",
+        "982b9df4-0772-4de1-a01e-794a77518500:28"
+      ],
+      "usage": {
+        "input_tokens": 1950,
+        "output_tokens": 46,
+        "cost_usd": 0.00218
+      },
+      "end_to_end_ms": 966.3,
+      "search_ms": 212.6
+    },
+    {
+      "kind": "unanswerable",
+      "question": "What are the contraindications for Qwertyvex?",
+      "answer": "Not enough information in the retrieved labels.\n\nThe drug \"Qwertyvex\" does not appear in the provided context. The context contains information about ziprasidone hydrochloride, clarithromycin, and fluoxetine, but not Qwertyvex.",
+      "answerable": false,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "c227a618-1274-2b4d-e053-2a95a90a74fb:8",
+        "b1f52226-4fb4-48bf-8bfd-0c9df6ca02fa:9",
+        "80c13492-3873-48ba-882f-58e02dc7237d:8",
+        "ba216276-b0bd-420a-9e0d-090bdfcc2460:15",
+        "cece294b-c414-4832-a8a2-22fb66aabda9:20"
+      ],
+      "usage": {
+        "input_tokens": 1838,
+        "output_tokens": 65,
+        "cost_usd": 0.002163
+      },
+      "end_to_end_ms": 1275.6,
+      "search_ms": 228.7
+    },
+    {
+      "kind": "unanswerable",
+      "question": "How should Dupixent be stored?",
+      "answer": "Not enough information in the retrieved labels.\n\nThe context provided contains information about Duloxetine storage and handling, but does not contain any information about Dupixent, which is a different medication.",
+      "answerable": false,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "c66fb2ee-f64a-4d28-a692-e8dc7b61fbc9:152",
+        "b33cbab8-1962-cb66-e053-2a95a90a4ae7:136",
+        "2b61c261-d7f2-4f9d-e063-6294a90acc24:159",
+        "d0a48dfd-af34-470b-9e1f-7678203e9ae5:133",
+        "ae381859-be09-43e1-8b56-d0d8f4b49020:153"
+      ],
+      "usage": {
+        "input_tokens": 1870,
+        "output_tokens": 45,
+        "cost_usd": 0.002095
+      },
+      "end_to_end_ms": 987.4,
+      "search_ms": 218.3
+    },
+    {
+      "kind": "unanswerable",
+      "question": "Explain how to change a car tire.",
+      "answer": "Not enough information in the retrieved labels.\n\nThe context provided contains information about FDA prescription drug labels for medications like Candesartan Cilexetil, Besremi, Levulan Kerastick, Pertzye, and Scopolamine. None of these labels contain instructions on how to change a car tire, as that topic is unrelated to pharmaceutical dosage and administration.",
+      "answerable": false,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "d5b43fa0-6678-4219-99f1-10d273d49baf:9",
+        "9583405d-53a0-49dc-88eb-5e6384ebabcb:14",
+        "e45cc371-9ebc-4904-12bc-65cb4e2817ad:6",
+        "481eec00-9abf-11dd-b71c-0002a5d5c51b:7",
+        "163accb7-45e6-4d97-844d-72b606677008:2"
+      ],
+      "usage": {
+        "input_tokens": 1643,
+        "output_tokens": 88,
+        "cost_usd": 0.002083
+      },
+      "end_to_end_ms": 1376.5,
+      "search_ms": 189.2
+    },
+    {
+      "kind": "unanswerable",
+      "question": "What is the boxed warning for Blorfinib?",
+      "answer": "Not enough information in the retrieved labels.\n\nThe context provided does not contain information about Blorfinib or its boxed warning. The retrieved labels cover FABHALTA, Venlafaxine Hydrochloride, ABILIFY MAINTENA, Fluphenazine Hydrochloride, and Loperamide Hydrochloride, but Blorfinib is not among them.",
+      "answerable": false,
+      "citations": [],
+      "invalid_citations": [],
+      "retrieved_chunk_ids": [
+        "a76b5845-6e21-4d3b-ad07-cd8df1b60bee:1",
+        "ac9b972d-8b8a-4727-90c2-b208f91272fd:117",
+        "ee49f3b1-1650-47ff-9fb1-ea53fe0b92b6:44",
+        "e8d4065a-45fc-4adf-9406-2122ca131d99:26",
+        "3fdfc0e5-56a2-48a0-8ee6-390a194a29f3:42"
+      ],
+      "usage": {
+        "input_tokens": 1972,
+        "output_tokens": 95,
+        "cost_usd": 0.002447
+      },
+      "end_to_end_ms": 1364.6,
+      "search_ms": 226.0
+    }
+  ]
+}
