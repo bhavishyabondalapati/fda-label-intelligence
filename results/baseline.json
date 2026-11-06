@@ -1,38 +1,46 @@
 {
   "system": "baseline",
   "description": "naive fixed-size chunks, all-MiniLM-L6-v2, dense only, local exact numpy index",
-  "metric": "recall@5 (primary), absolute values",
-  "recall_at_5": 0.3,
-  "recall_at_1": 0.1,
-  "mrr_at_10": 0.182,
+  "relevance_rule": "relaxed (primary): same normalized drug name + route as the gold label, chunk covers that label's copy of the gold section",
+  "recall_at_1": 0.315,
+  "recall_at_5": 0.465,
+  "mrr_at_10": 0.3828,
+  "n_hits_at_5": 93,
+  "strict_crosscheck": {
+    "rule": "exact gold set_id, chunk covers gold section",
+    "recall_at_1": 0.085,
+    "recall_at_5": 0.21,
+    "mrr_at_10": 0.1395,
+    "n_hits_at_5": 42
+  },
   "n_questions": 200,
-  "n_hits_at_5": 60,
-  "per_section_recall": {
-    "adverse_reactions": 0.353,
-    "boxed_warning": 0.0,
-    "contraindications": 0.176,
-    "description": 0.684,
-    "dosage_and_administration": 0.333,
-    "drug_interactions": 0.056,
-    "how_supplied": 0.5,
-    "indications_and_usage": 0.222,
-    "mechanism_of_action": 0.118,
-    "overdosage": 0.353,
-    "storage_and_handling": 0.429,
-    "warnings_and_cautions": 0.412
+  "mean_relevant_labels_per_question": 12.27,
+  "per_section_recall_at_5": {
+    "adverse_reactions": 0.647,
+    "boxed_warning": 0.235,
+    "contraindications": 0.294,
+    "description": 0.882,
+    "dosage_and_administration": 0.824,
+    "drug_interactions": 0.176,
+    "how_supplied": 0.471,
+    "indications_and_usage": 0.118,
+    "mechanism_of_action": 0.353,
+    "overdosage": 0.824,
+    "storage_and_handling": 0.385,
+    "warnings_and_cautions": 0.353
   },
   "per_section_n": {
     "adverse_reactions": 17,
     "boxed_warning": 17,
     "contraindications": 17,
-    "description": 19,
-    "dosage_and_administration": 18,
-    "drug_interactions": 18,
-    "how_supplied": 18,
-    "indications_and_usage": 18,
+    "description": 17,
+    "dosage_and_administration": 17,
+    "drug_interactions": 17,
+    "how_supplied": 17,
+    "indications_and_usage": 17,
     "mechanism_of_action": 17,
     "overdosage": 17,
-    "storage_and_handling": 7,
+    "storage_and_handling": 13,
     "warnings_and_cautions": 17
   },
   "n_labels": 5000,
@@ -43,11 +51,11 @@
     "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
     "embedding_dim": 384,
     "k_retrieved": 10,
-    "hit_rule": "same set_id and chunk overlaps gold section by >= min(200, section length) chars"
+    "min_overlap_chars": "min(200, section length)"
   },
   "timing": {
-    "embed_seconds": 537.0,
-    "search_ms_per_query": 3.63,
+    "embed_seconds": 0.2,
+    "search_ms_per_query": 2.57,
     "device": "mps"
   },
   "manifest": {
@@ -64,7 +72,7 @@
       "extraction_test": 479
     }
   },
-  "gold_file_sha256": "11c6a3b53fc9ee979aeaeb7e975b90340a77c0d38ae6cf08212b716aa8130636",
-  "run_at": "2026-11-06T03:46:48+00:00",
+  "gold_file_sha256": "3592956d31194982d258c90e5f19553fd371b789141401a39691448b7d331379",
+  "run_at": "2026-11-06T03:49:50+00:00",
   "machine": "macOS-26.6.2-arm64-arm-64bit"
 }

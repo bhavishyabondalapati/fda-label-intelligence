@@ -2,7 +2,7 @@ import pytest
 
 from src.chunk.naive import SECTION_SEPARATOR, join_label, naive_chunks
 from src.eval.gold import TEMPLATES, build_gold
-from src.eval.metrics import chunk_hits_gold, recall_at_k, relative_improvement
+from src.eval.metrics import chunk_hits_gold, chunk_hits_relevant, recall_at_k, relative_improvement
 
 
 def test_join_label_spans_point_at_section_text():
@@ -51,7 +51,7 @@ def _fake_labels(n):
         sid = f"id{i}"
         labels.append({
             "set_id": sid, "drug_name": f"Drug{i}", "brand_name": f"Drug{i}", "generic_name": f"gen{i}",
-            "manufacturer": "Acme", "split": "retrieval_eval" if i % 2 == 0 else "extraction_train",
+            "manufacturer": "Acme", "route": "ORAL", "split": "retrieval_eval" if i % 2 == 0 else "extraction_train",
         })
         sections[sid] = {s: "t" * 400 for s in TEMPLATES}
     return labels, sections
@@ -67,12 +67,31 @@ def test_build_gold_is_deterministic_and_uses_only_eval_split():
     assert all(g["drug_name"] in g["question"] for g in g1)
 
 
-def test_build_gold_skips_ambiguous_names():
+def test_build_gold_questions_do_not_name_the_manufacturer():
+    labels, sections = _fake_labels(20)
+    gold = build_gold(labels, sections, n_questions=5, seed=1)
+    assert gold and all("Acme" not in g["question"] for g in gold)
+    assert all(g["route"] == "ORAL" for g in gold)
+
+
+def test_build_gold_allows_same_name_same_route_but_skips_multi_route_names():
     labels, sections = _fake_labels(4)
-    for lab in labels:                      # every label has the same name AND manufacturer
+    for lab in labels:                      # same name on every label, all retrieval_eval
         lab["brand_name"] = lab["drug_name"] = "Same"
         lab["split"] = "retrieval_eval"
+    assert len(build_gold(labels, sections, n_questions=4, seed=1)) == 4   # same route: fine
+    labels[0]["route"] = "TOPICAL"          # now "Same" means two different routes
     assert build_gold(labels, sections, n_questions=4, seed=1) == []
+
+
+def test_relaxed_hit_accepts_other_manufacturers_copy_of_same_drug_and_route():
+    key = ("xylocaine", "injection")
+    own_span = (100, 900)                                    # that label's copy of the gold section
+    assert chunk_hits_relevant(key, 150, 1150, key, own_span)                 # other label, same drug+route
+    assert not chunk_hits_relevant(("xylocaine", "topical"), 150, 1150, key, own_span)   # different route
+    assert not chunk_hits_relevant(("lidocaine", "injection"), 150, 1150, key, own_span)  # different name
+    assert not chunk_hits_relevant(key, 150, 1150, key, None)                 # label lacks that section
+    assert not chunk_hits_relevant(key, 2000, 3000, key, own_span)            # chunk is outside the section
 
 
 def test_mrr():

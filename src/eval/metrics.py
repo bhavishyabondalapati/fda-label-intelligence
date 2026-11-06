@@ -3,17 +3,30 @@
 MIN_OVERLAP_CHARS = 200
 
 
-def chunk_hits_gold(chunk_set_id, chunk_start, chunk_end, gold_set_id, gold_span):
-    """True if a naive chunk lies in the gold label AND really covers the gold section.
+def overlaps_section(chunk_start, chunk_end, span):
+    """True if a chunk covers a section: overlap >= min(200, section length) characters.
 
-    Overlap must be at least min(200, section length) characters, so a chunk that
-    only touches the section boundary by a few characters does not count.
+    So a chunk that only grazes the section boundary by a few characters does not count.
     """
-    if chunk_set_id != gold_set_id:
-        return False
-    g_start, g_end = gold_span
-    overlap = min(chunk_end, g_end) - max(chunk_start, g_start)
-    return overlap >= min(MIN_OVERLAP_CHARS, g_end - g_start)
+    s_start, s_end = span
+    overlap = min(chunk_end, s_end) - max(chunk_start, s_start)
+    return overlap >= min(MIN_OVERLAP_CHARS, s_end - s_start)
+
+
+def chunk_hits_gold(chunk_set_id, chunk_start, chunk_end, gold_set_id, gold_span):
+    """STRICT hit: the chunk is in the exact gold label AND covers the gold section."""
+    return chunk_set_id == gold_set_id and overlaps_section(chunk_start, chunk_end, gold_span)
+
+
+def chunk_hits_relevant(chunk_key, chunk_start, chunk_end, gold_key, chunk_section_span):
+    """RELAXED hit (primary metric): the chunk's label has the same (drug name, route) as
+    the gold label, and the chunk covers that label's own copy of the gold section.
+
+    chunk_section_span is the span of the gold section inside the chunk's own label
+    (None if that label has no such section).
+    """
+    return (chunk_key == gold_key and chunk_section_span is not None
+            and overlaps_section(chunk_start, chunk_end, chunk_section_span))
 
 
 def recall_at_k(hit_flags_per_query):

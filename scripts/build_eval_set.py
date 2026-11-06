@@ -47,7 +47,7 @@ def main():
             f.write(json.dumps(g) + "\n")
     print(f"Wrote {len(gold)} questions to {args.out}")
     print("By section:", dict(Counter(g["section"] for g in gold)))
-    print("Disambiguated with manufacturer:", sum(g["disambiguated"] for g in gold))
+    print("Distinct drugs:", len({g["drug_name"] for g in gold}))
 
 
 if __name__ == "__main__":

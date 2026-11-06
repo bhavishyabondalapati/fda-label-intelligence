@@ -31,8 +31,11 @@ The **search index contains all ~5,000 labels** (needed for scale and realism). 
 
 ### M1. Retrieval accuracy = recall@5
 - Eval set: ~200 gold questions, each with one gold `(set_id, section)`. Built by `scripts/build_eval_set.py` from section text of `retrieval_eval` labels, balanced across section types. Questions use templates (no LLM).
-- A question is a **hit** if any of the top 5 retrieved chunks lies in the gold label **and** overlaps the gold section (chunk-level overlap of at least `min(200, section length)` characters for naive chunks; section id match for section-aware chunks).
-- `recall@5 = hits / questions`.
+- Relevance (amended 2026-11-05, see note below): a retrieved chunk is **relevant** if it comes from **any label with the same normalized drug name and the same route** as the gold label, **and** it covers that label's own copy of the gold section (overlap of at least `min(200, section length)` characters for naive chunks; section id match for section-aware chunks). A question is a **hit** if any of the top 5 chunks is relevant.
+- Questions name only the drug, not the manufacturer. Drug names that appear with more than one route in the corpus are not used for questions, since the question could not say which one it means.
+- The **strict** variant (exact gold `set_id`) is kept as a secondary cross-check in `results/*.json` under `strict_crosscheck`.
+- Reported metrics: recall@1, recall@5 (primary), MRR@10, always as absolute values and as relative improvement over the baseline.
+- `recall@5 = hits / questions`; `MRR@10` = mean of 1/rank of the first relevant chunk in the top 10 (0 if none).
 - Reported as **relative improvement**: `(recall_new - recall_baseline) / recall_baseline`. Target: >= 30% relative. Percentage points are reported alongside, never instead.
 - Baseline (Phase 0): naive fixed-size chunks (1000 chars, 100 overlap, section boundaries ignored), `all-MiniLM-L6-v2`, dense only, local numpy index.
 - Known limitation: templated questions are cleaner than real user queries. If budget allows, Phase 2 adds a second, LLM-written question set and reports both.
@@ -52,6 +55,15 @@ The **search index contains all ~5,000 labels** (needed for scale and realism). 
 - Task: given label text, output JSON with a fixed field set. Gold values come from openFDA structured data; the exact field list is frozen at the start of Phase 4, before any model output is seen.
 - Matching: normalized exact match per field (lowercase, whitespace, punctuation stripped). Micro-averaged F1 over all fields on `extraction_test`.
 - Reported as **relative improvement**: `(F1_adapter - F1_base) / F1_base`. Base = Qwen2.5-1.5B-Instruct with the same prompt, no adapter. Target: >= 15% relative.
+
+## Amendments
+
+**2026-11-05: relevance rule for M1 changed (before any Phase 1+ result existed).**
+- *What changed:* the first baseline run counted a chunk as a hit only if it came from the exact gold `set_id`. The rule is now "same normalized drug name + same route + gold section" (see M1), the manufacturer was removed from the question text, and the strict rule became a cross-check.
+- *Why:* a sanity check of sample questions showed the strict rule marked correct answers wrong. Many generic drugs have near-identical labels from several manufacturers, so a copy from another manufacturer gives the same answer to "what are the contraindications of X?". The strict eval was penalizing the retriever for picking an identical copy, and 152 of 200 questions had to name the manufacturer to be answerable, which no real user does.
+- *Why this is legitimate:* the flaw was found by inspecting baseline output, before any improved system was built. The baseline is re-run under the new rule, so baseline and every later result use the same definition. The rule will not be changed again after Phase 1+ results exist.
+- Route is included because labels for the same drug differ by route (e.g. lidocaine injection vs patch have different warnings).
+- Note for Phase 2: adding the drug name and section heading to each chunk's text ("contextual chunk headers") is a standard retrieval technique and is allowed. It will be named as such and measured on its own.
 
 ## Phases
 

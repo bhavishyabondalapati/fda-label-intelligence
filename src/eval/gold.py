@@ -68,20 +68,23 @@ def norm_name(name: str) -> str:
     return re.sub(r"[^a-z0-9]+", " ", name.lower()).strip()
 
 
-def name_counts(labels):
-    """How many labels use each normalized brand/generic name. Used to spot ambiguity."""
-    counts = Counter()
-    for lab in labels:
-        for n in {norm_name(lab["brand_name"]), norm_name(lab["generic_name"])} - {""}:
-            counts[n] += 1
-    return counts
+def drug_key(label):
+    """Normalized drug name + route: what makes two labels 'the same drug' for relevance."""
+    return (norm_name(label["drug_name"]), label["route"].strip().lower())
 
 
 def build_gold(labels, sections_by_label, n_questions=200, seed=42):
-    """labels: list of label meta dicts. sections_by_label: set_id -> {section: text}."""
+    """labels: list of label meta dicts. sections_by_label: set_id -> {section: text}.
+
+    Questions name only the drug (no manufacturer): any label with the same drug name and
+    route is an equally good source (see PLAN.md, 2026-11-05 note). A drug name that appears
+    with more than one route in the corpus is skipped, because a question that does not
+    mention the route could not say which one it means.
+    """
     rng = random.Random(seed)
-    counts = name_counts(labels)
-    pair_counts = Counter((norm_name(lab["drug_name"]), norm_name(lab["manufacturer"])) for lab in labels)
+    routes_by_name = {}
+    for lab in labels:
+        routes_by_name.setdefault(norm_name(lab["drug_name"]), set()).add(lab["route"].strip().lower())
 
     pool = sorted((lab for lab in labels if lab["split"] == "retrieval_eval"),
                   key=lambda lab: lab["set_id"])  # sorted first so shuffle is reproducible
@@ -89,24 +92,16 @@ def build_gold(labels, sections_by_label, n_questions=200, seed=42):
 
     quota = math.ceil(n_questions / len(TEMPLATES))
     taken = Counter()
-    used = set()
     gold = []
     # Pass 1 balances sections with a per-section quota. Pass 2 (no quota) only fills
-    # any shortfall, because rare sections (e.g. boxed_warning) may run out of labels.
+    # any shortfall, because rare sections (e.g. storage_and_handling) may run out of labels.
+    used = set()
     for section_quota in (quota, math.inf):
         for lab in pool:
             if len(gold) >= n_questions:
                 break
-            if lab["set_id"] in used:
+            if lab["set_id"] in used or len(routes_by_name[norm_name(lab["drug_name"])]) > 1:
                 continue
-            name = lab["drug_name"]
-            disambiguated = False
-            if counts[norm_name(name)] > 1:
-                # Same name on several labels: add the manufacturer, but only if that is unique.
-                if not lab["manufacturer"] or pair_counts[(norm_name(name), norm_name(lab["manufacturer"]))] > 1:
-                    continue
-                name = f"{name} ({lab['manufacturer']})"
-                disambiguated = True
             texts = sections_by_label[lab["set_id"]]
             options = [s for s in TEMPLATES if s in texts and len(texts[s]) >= MIN_SECTION_CHARS
                        and taken[s] < section_quota]
@@ -118,10 +113,10 @@ def build_gold(labels, sections_by_label, n_questions=200, seed=42):
             used.add(lab["set_id"])
             gold.append({
                 "qid": f"q{len(gold) + 1:04d}",
-                "question": template.format(d=name),
+                "question": template.format(d=lab["drug_name"]),
                 "set_id": lab["set_id"],
                 "section": section,
                 "drug_name": lab["drug_name"],
-                "disambiguated": disambiguated,
+                "route": lab["route"],
             })
     return gold
