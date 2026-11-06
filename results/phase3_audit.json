@@ -1,0 +1,221 @@
+{
+  "what": "Manual audit of every approved value that disagrees with openFDA on the 150 test labels (14 cases, all of them; none dropped). Classified by Claude from the saved outputs and the label text, one reviewer, no domain expert. It does NOT change the official scores, which are against openFDA.",
+  "n_cases": 14,
+  "counts": {
+    "openfda_gold_missing_or_incomplete": 9,
+    "same_value_different_wording": 4,
+    "model_wrong": 1
+  },
+  "two_way_view": {
+    "model_wrong": 1,
+    "not_a_model_error (openFDA gap/convention or same drug worded differently)": 13
+  },
+  "by_field": {
+    "route": 7,
+    "generic_name": 3,
+    "active_ingredients": 4
+  },
+  "cases": [
+    {
+      "set_id": "e67dee40-b243-4d6b-bc6b-e52c6cb798b8",
+      "field": "route",
+      "predicted": "TOPICAL",
+      "openfda": {
+        "generic_name": "LIDOCAINE HYDROCHLORIDE",
+        "substance_name": [
+          "LIDOCAINE HYDROCHLORIDE"
+        ],
+        "route": "ORAL"
+      },
+      "classification": "openfda_gold_missing_or_incomplete",
+      "reason": "label text says topical use on mucous membranes; openFDA lists ORAL (mouth application), so the gold is arguable"
+    },
+    {
+      "set_id": "1e940ba6-3916-4fc4-8886-481fc9685fc1",
+      "field": "generic_name",
+      "predicted": "lidocaine patch 5%",
+      "openfda": {
+        "generic_name": "LIDOCAINE",
+        "substance_name": [
+          "LIDOCAINE"
+        ],
+        "route": "TOPICAL"
+      },
+      "classification": "same_value_different_wording",
+      "reason": "same drug; the model added the product form and strength ('patch 5%'), which are not in the ignored form-word list"
+    },
+    {
+      "set_id": "9d4b28b4-c582-4e2c-abd9-f7e203378e2d",
+      "field": "route",
+      "predicted": "OPHTHALMIC",
+      "openfda": {
+        "generic_name": "BRILLIANT BLUE G",
+        "substance_name": [
+          "BRILLIANT BLUE G"
+        ],
+        "route": "INTRAOCULAR"
+      },
+      "classification": "openfda_gold_missing_or_incomplete",
+      "reason": "openFDA says INTRAOCULAR, which is more specific; the allowed route list had no INTRAOCULAR, so OPHTHALMIC is reasonable"
+    },
+    {
+      "set_id": "74bad838-2800-4d36-a3ee-cc1d739d24c2",
+      "field": "generic_name",
+      "predicted": "lidocaine HCl",
+      "openfda": {
+        "generic_name": "LIDOCAINE HYDROCHLORIDE,EPINEPHRINE BITARTRATE",
+        "substance_name": [
+          "LIDOCAINE HYDROCHLORIDE ANHYDROUS",
+          "EPINEPHRINE BITARTRATE"
+        ],
+        "route": "INFILTRATION"
+      },
+      "classification": "model_wrong",
+      "reason": "label covers lidocaine with epinephrine (openFDA lists both); the model named only lidocaine HCl"
+    },
+    {
+      "set_id": "945419b8-6184-f4f3-e053-2a95a90a6236",
+      "field": "route",
+      "predicted": "INTRAVENOUS",
+      "openfda": {
+        "generic_name": "MAGNESIUM SULFATE",
+        "substance_name": [
+          "MAGNESIUM SULFATE HEPTAHYDRATE"
+        ],
+        "route": "INTRAMUSCULAR"
+      },
+      "classification": "openfda_gold_missing_or_incomplete",
+      "reason": "label says IV or IM; openFDA lists several routes and only the first (IM) is scored, the model's IV is a real route of the label"
+    },
+    {
+      "set_id": "e45cc371-9ebc-4904-12bc-65cb4e2817ad",
+      "field": "active_ingredients",
+      "predicted": [
+        "aminolevulinic acid HCl"
+      ],
+      "openfda": {
+        "generic_name": "AMINOLEVULINIC ACID HYDROCHLORIDE",
+        "substance_name": [],
+        "route": ""
+      },
+      "classification": "openfda_gold_missing_or_incomplete",
+      "reason": "openFDA substance_name is empty for this label, so the gold ingredient list is missing"
+    },
+    {
+      "set_id": "e45cc371-9ebc-4904-12bc-65cb4e2817ad",
+      "field": "route",
+      "predicted": "TOPICAL",
+      "openfda": {
+        "generic_name": "AMINOLEVULINIC ACID HYDROCHLORIDE",
+        "substance_name": [],
+        "route": ""
+      },
+      "classification": "openfda_gold_missing_or_incomplete",
+      "reason": "openFDA route is empty for this label; the text clearly says topical"
+    },
+    {
+      "set_id": "1ac7d061-3380-468c-b077-c05f8dfbc829",
+      "field": "active_ingredients",
+      "predicted": [
+        "adalimumab-adaz"
+      ],
+      "openfda": {
+        "generic_name": "ADALIMUMAB-ADAZ",
+        "substance_name": [
+          "ADALIMUMAB"
+        ],
+        "route": "SUBCUTANEOUS"
+      },
+      "classification": "openfda_gold_missing_or_incomplete",
+      "reason": "openFDA records the base name ADALIMUMAB; the label text says adalimumab-adaz, which the model copied"
+    },
+    {
+      "set_id": "820839ef-e53d-47e8-a3b9-d911ff92e6a9",
+      "field": "generic_name",
+      "predicted": "tiotropium bromide inhalation powder",
+      "openfda": {
+        "generic_name": "TIOTROPIUM BROMIDE",
+        "substance_name": [
+          "TIOTROPIUM BROMIDE MONOHYDRATE"
+        ],
+        "route": "ORAL"
+      },
+      "classification": "same_value_different_wording",
+      "reason": "same drug; the model added 'inhalation powder', which is not in the ignored form-word list"
+    },
+    {
+      "set_id": "820839ef-e53d-47e8-a3b9-d911ff92e6a9",
+      "field": "route",
+      "predicted": "RESPIRATORY (INHALATION)",
+      "openfda": {
+        "generic_name": "TIOTROPIUM BROMIDE",
+        "substance_name": [
+          "TIOTROPIUM BROMIDE MONOHYDRATE"
+        ],
+        "route": "ORAL"
+      },
+      "classification": "openfda_gold_missing_or_incomplete",
+      "reason": "openFDA says ORAL; the label says 'oral inhalation only', so respiratory/inhalation is the better route"
+    },
+    {
+      "set_id": "2b2621e7-a69e-4286-a7e7-0fc31a91fe29",
+      "field": "active_ingredients",
+      "predicted": [
+        "bromfenac sodium sesquihydrate"
+      ],
+      "openfda": {
+        "generic_name": "BROMFENAC",
+        "substance_name": [
+          "BROMFENAC SODIUM"
+        ],
+        "route": "OPHTHALMIC"
+      },
+      "classification": "same_value_different_wording",
+      "reason": "same drug; the label says 'bromfenac sodium sesquihydrate' and openFDA says 'bromfenac sodium' (hydrate word not in the list)"
+    },
+    {
+      "set_id": "5cf93bc5-9e4c-4734-bc02-c7d0ac071022",
+      "field": "route",
+      "predicted": "INTRAVENOUS",
+      "openfda": {
+        "generic_name": "CEFTRIAXONE",
+        "substance_name": [
+          "CEFTRIAXONE SODIUM"
+        ],
+        "route": "INTRAMUSCULAR"
+      },
+      "classification": "openfda_gold_missing_or_incomplete",
+      "reason": "label says IV or IM; openFDA lists several routes and only the first (IM) is scored"
+    },
+    {
+      "set_id": "6a970e80-b753-48fa-9fff-87e7a5044982",
+      "field": "active_ingredients",
+      "predicted": [
+        "sitagliptin free base"
+      ],
+      "openfda": {
+        "generic_name": "SITAGLIPTIN",
+        "substance_name": [
+          "SITAGLIPTIN"
+        ],
+        "route": "ORAL"
+      },
+      "classification": "same_value_different_wording",
+      "reason": "same drug; the label says 'sitagliptin free base', openFDA says 'sitagliptin' ('free base' is not in the list)"
+    },
+    {
+      "set_id": "d2f5bfa0-933e-46d0-8b1a-9f90e6aaba54",
+      "field": "route",
+      "predicted": "INTRAVENOUS",
+      "openfda": {
+        "generic_name": "NALOXONE HYDROCHLORIDE",
+        "substance_name": [
+          "NALOXONE HYDROCHLORIDE"
+        ],
+        "route": "PARENTERAL"
+      },
+      "classification": "openfda_gold_missing_or_incomplete",
+      "reason": "openFDA says PARENTERAL (not in the allowed list); the label says IV, IM or subcutaneous, and the model picked IV"
+    }
+  ]
+}

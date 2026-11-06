@@ -1,0 +1,663 @@
+{
+  "what": "Phase 3: LangGraph extraction + validation + review queue, Claude Haiku 4.5, 150 extraction_test labels, run once",
+  "baseline": "100% manual review = 0% auto-approved",
+  "chosen_confidence_setting": "medium",
+  "choice_made_on": "extraction_train (pre-registered rule)",
+  "test": {
+    "min_conf": "medium",
+    "n_labels": 150,
+    "n_field_values": 900,
+    "per_field_auto_approval_rate": 0.6988888888888889,
+    "per_label_auto_approval_rate": 0.2866666666666667,
+    "per_label_definition": "all fields except review-only ones (pharm_class) approved",
+    "auto_approved_precision": 0.9777424483306836,
+    "auto_approved_precision_ci95": [
+      0.963,
+      0.9867
+    ],
+    "n_auto_approved": 629,
+    "n_wrong_extractions": 137,
+    "wrong_sent_to_review": 123,
+    "queue_catch_rate": 0.8978102189781022,
+    "queue_precision": 0.45387453874538747,
+    "accuracy_all_fields": 0.8477777777777777,
+    "field_f1_micro": {
+      "precision": 0.6854334226988382,
+      "recall": 0.9229843561973526,
+      "f1": 0.7866666666666667
+    },
+    "by_field": {
+      "generic_name": {
+        "auto_approval_rate": 0.9733333333333334,
+        "auto_approved_precision": 0.9794520547945206,
+        "auto_approved_precision_ci95": [
+          0.9413,
+          0.993
+        ],
+        "n_auto_approved": 146,
+        "accuracy": 0.9666666666666667,
+        "f1": 0.9666666666666667
+      },
+      "active_ingredients": {
+        "auto_approval_rate": 0.9666666666666667,
+        "auto_approved_precision": 0.9724137931034482,
+        "auto_approved_precision_ci95": [
+          0.9312,
+          0.9892
+        ],
+        "n_auto_approved": 145,
+        "accuracy": 0.96,
+        "f1": 0.966966966966967
+      },
+      "is_combination": {
+        "auto_approval_rate": 0.98,
+        "auto_approved_precision": 1.0,
+        "auto_approved_precision_ci95": [
+          0.9745,
+          1.0
+        ],
+        "n_auto_approved": 147,
+        "accuracy": 1.0,
+        "f1": 1.0
+      },
+      "route": {
+        "auto_approval_rate": 0.9866666666666667,
+        "auto_approved_precision": 0.9527027027027027,
+        "auto_approved_precision_ci95": [
+          0.9056,
+          0.9769
+        ],
+        "n_auto_approved": 148,
+        "accuracy": 0.9533333333333334,
+        "f1": 0.9565217391304347
+      },
+      "has_boxed_warning": {
+        "auto_approval_rate": 0.2866666666666667,
+        "auto_approved_precision": 1.0,
+        "auto_approved_precision_ci95": [
+          0.918,
+          1.0
+        ],
+        "n_auto_approved": 43,
+        "accuracy": 0.9733333333333334,
+        "f1": 0.9733333333333334
+      },
+      "pharm_class": {
+        "auto_approval_rate": 0.0,
+        "auto_approved_precision": 0.0,
+        "auto_approved_precision_ci95": [
+          0.0,
+          0.0
+        ],
+        "n_auto_approved": 0,
+        "accuracy": 0.23333333333333334,
+        "f1": 0.10526315789473684
+      }
+    },
+    "strict_accuracy_no_salt_stripping": {
+      "generic_name": 0.84,
+      "active_ingredients": 0.76
+    }
+  },
+  "test_other_confidence_settings": {
+    "low": {
+      "min_conf": "low",
+      "n_labels": 150,
+      "n_field_values": 900,
+      "per_field_auto_approval_rate": 0.6988888888888889,
+      "per_label_auto_approval_rate": 0.2866666666666667,
+      "per_label_definition": "all fields except review-only ones (pharm_class) approved",
+      "auto_approved_precision": 0.9777424483306836,
+      "auto_approved_precision_ci95": [
+        0.963,
+        0.9867
+      ],
+      "n_auto_approved": 629,
+      "n_wrong_extractions": 137,
+      "wrong_sent_to_review": 123,
+      "queue_catch_rate": 0.8978102189781022,
+      "queue_precision": 0.45387453874538747,
+      "accuracy_all_fields": 0.8477777777777777,
+      "field_f1_micro": {
+        "precision": 0.6854334226988382,
+        "recall": 0.9229843561973526,
+        "f1": 0.7866666666666667
+      },
+      "by_field": {
+        "generic_name": {
+          "auto_approval_rate": 0.9733333333333334,
+          "auto_approved_precision": 0.9794520547945206,
+          "auto_approved_precision_ci95": [
+            0.9413,
+            0.993
+          ],
+          "n_auto_approved": 146,
+          "accuracy": 0.9666666666666667,
+          "f1": 0.9666666666666667
+        },
+        "active_ingredients": {
+          "auto_approval_rate": 0.9666666666666667,
+          "auto_approved_precision": 0.9724137931034482,
+          "auto_approved_precision_ci95": [
+            0.9312,
+            0.9892
+          ],
+          "n_auto_approved": 145,
+          "accuracy": 0.96,
+          "f1": 0.966966966966967
+        },
+        "is_combination": {
+          "auto_approval_rate": 0.98,
+          "auto_approved_precision": 1.0,
+          "auto_approved_precision_ci95": [
+            0.9745,
+            1.0
+          ],
+          "n_auto_approved": 147,
+          "accuracy": 1.0,
+          "f1": 1.0
+        },
+        "route": {
+          "auto_approval_rate": 0.9866666666666667,
+          "auto_approved_precision": 0.9527027027027027,
+          "auto_approved_precision_ci95": [
+            0.9056,
+            0.9769
+          ],
+          "n_auto_approved": 148,
+          "accuracy": 0.9533333333333334,
+          "f1": 0.9565217391304347
+        },
+        "has_boxed_warning": {
+          "auto_approval_rate": 0.2866666666666667,
+          "auto_approved_precision": 1.0,
+          "auto_approved_precision_ci95": [
+            0.918,
+            1.0
+          ],
+          "n_auto_approved": 43,
+          "accuracy": 0.9733333333333334,
+          "f1": 0.9733333333333334
+        },
+        "pharm_class": {
+          "auto_approval_rate": 0.0,
+          "auto_approved_precision": 0.0,
+          "auto_approved_precision_ci95": [
+            0.0,
+            0.0
+          ],
+          "n_auto_approved": 0,
+          "accuracy": 0.23333333333333334,
+          "f1": 0.10526315789473684
+        }
+      },
+      "strict_accuracy_no_salt_stripping": {
+        "generic_name": 0.84,
+        "active_ingredients": 0.76
+      }
+    },
+    "high": {
+      "min_conf": "high",
+      "n_labels": 150,
+      "n_field_values": 900,
+      "per_field_auto_approval_rate": 0.6944444444444444,
+      "per_label_auto_approval_rate": 0.2866666666666667,
+      "per_label_definition": "all fields except review-only ones (pharm_class) approved",
+      "auto_approved_precision": 0.9808,
+      "auto_approved_precision_ci95": [
+        0.9667,
+        0.989
+      ],
+      "n_auto_approved": 625,
+      "n_wrong_extractions": 137,
+      "wrong_sent_to_review": 125,
+      "queue_catch_rate": 0.9124087591240876,
+      "queue_precision": 0.45454545454545453,
+      "accuracy_all_fields": 0.8477777777777777,
+      "field_f1_micro": {
+        "precision": 0.6854334226988382,
+        "recall": 0.9229843561973526,
+        "f1": 0.7866666666666667
+      },
+      "by_field": {
+        "generic_name": {
+          "auto_approval_rate": 0.9733333333333334,
+          "auto_approved_precision": 0.9794520547945206,
+          "auto_approved_precision_ci95": [
+            0.9413,
+            0.993
+          ],
+          "n_auto_approved": 146,
+          "accuracy": 0.9666666666666667,
+          "f1": 0.9666666666666667
+        },
+        "active_ingredients": {
+          "auto_approval_rate": 0.9666666666666667,
+          "auto_approved_precision": 0.9724137931034482,
+          "auto_approved_precision_ci95": [
+            0.9312,
+            0.9892
+          ],
+          "n_auto_approved": 145,
+          "accuracy": 0.96,
+          "f1": 0.966966966966967
+        },
+        "is_combination": {
+          "auto_approval_rate": 0.98,
+          "auto_approved_precision": 1.0,
+          "auto_approved_precision_ci95": [
+            0.9745,
+            1.0
+          ],
+          "n_auto_approved": 147,
+          "accuracy": 1.0,
+          "f1": 1.0
+        },
+        "route": {
+          "auto_approval_rate": 0.96,
+          "auto_approved_precision": 0.9652777777777778,
+          "auto_approved_precision_ci95": [
+            0.9213,
+            0.9851
+          ],
+          "n_auto_approved": 144,
+          "accuracy": 0.9533333333333334,
+          "f1": 0.9565217391304347
+        },
+        "has_boxed_warning": {
+          "auto_approval_rate": 0.2866666666666667,
+          "auto_approved_precision": 1.0,
+          "auto_approved_precision_ci95": [
+            0.918,
+            1.0
+          ],
+          "n_auto_approved": 43,
+          "accuracy": 0.9733333333333334,
+          "f1": 0.9733333333333334
+        },
+        "pharm_class": {
+          "auto_approval_rate": 0.0,
+          "auto_approved_precision": 0.0,
+          "auto_approved_precision_ci95": [
+            0.0,
+            0.0
+          ],
+          "n_auto_approved": 0,
+          "accuracy": 0.23333333333333334,
+          "f1": 0.10526315789473684
+        }
+      },
+      "strict_accuracy_no_salt_stripping": {
+        "generic_name": 0.84,
+        "active_ingredients": 0.76
+      }
+    }
+  },
+  "targets": {
+    "auto_approval_per_field_ge": 0.4,
+    "auto_approved_precision_ge": 0.95
+  },
+  "target_check": {
+    "auto_approval_met": true,
+    "precision_met": true,
+    "precision_ci95_lower_ge_0.95": true
+  },
+  "invalid_json_replies": 0,
+  "cost": {
+    "labels": 150,
+    "extract_cost_usd": 0.771,
+    "summarize_calls": 150,
+    "summarize_cost_usd": 0.1052,
+    "test_run_cost_usd": 0.8762,
+    "per_label_usd": 0.00584,
+    "phase3_ledger_total_usd": 1.4002,
+    "budget_cap_usd": 1.5,
+    "extract_latency_ms": {
+      "p50": 2273,
+      "max": 7138
+    },
+    "mean_input_tokens": 2823,
+    "mean_output_tokens": 463
+  },
+  "train": {
+    "n_labels": 100,
+    "chosen_min_conf": "medium",
+    "choice_rule": "highest approval rate with train precision >= 0.96",
+    "cost": {
+      "extract_calls": 100,
+      "extract_cost_usd": 0.4917,
+      "mean_extract_input_tokens": 2673,
+      "mean_extract_output_tokens": 449,
+      "summarize_calls": 24,
+      "summarize_cost_usd": 0.0168,
+      "mean_summarize_cost_usd": 0.0007,
+      "extract_latency_ms_p50": 2163
+    },
+    "chosen_setting_result": {
+      "min_conf": "medium",
+      "n_labels": 100,
+      "n_field_values": 600,
+      "per_field_auto_approval_rate": 0.67,
+      "per_label_auto_approval_rate": 0.28,
+      "per_label_definition": "all fields except review-only ones (pharm_class) approved",
+      "auto_approved_precision": 0.9776119402985075,
+      "auto_approved_precision_ci95": [
+        0.958,
+        0.9882
+      ],
+      "n_auto_approved": 402,
+      "n_wrong_extractions": 109,
+      "wrong_sent_to_review": 100,
+      "queue_catch_rate": 0.9174311926605505,
+      "queue_precision": 0.5050505050505051,
+      "accuracy_all_fields": 0.8183333333333334,
+      "field_f1_micro": {
+        "precision": 0.6029411764705882,
+        "recall": 0.8646748681898067,
+        "f1": 0.7104693140794223
+      },
+      "by_field": {
+        "generic_name": {
+          "auto_approval_rate": 0.94,
+          "auto_approved_precision": 1.0,
+          "auto_approved_precision_ci95": [
+            0.9607,
+            1.0
+          ],
+          "n_auto_approved": 94,
+          "accuracy": 0.96,
+          "f1": 0.9696969696969697
+        },
+        "active_ingredients": {
+          "auto_approval_rate": 0.9,
+          "auto_approved_precision": 0.9666666666666667,
+          "auto_approved_precision_ci95": [
+            0.9065,
+            0.9886
+          ],
+          "n_auto_approved": 90,
+          "accuracy": 0.92,
+          "f1": 0.847457627118644
+        },
+        "is_combination": {
+          "auto_approval_rate": 0.91,
+          "auto_approved_precision": 0.978021978021978,
+          "auto_approved_precision_ci95": [
+            0.9234,
+            0.994
+          ],
+          "n_auto_approved": 91,
+          "accuracy": 0.97,
+          "f1": 0.9748743718592964
+        },
+        "route": {
+          "auto_approval_rate": 0.96,
+          "auto_approved_precision": 0.9583333333333334,
+          "auto_approved_precision_ci95": [
+            0.8977,
+            0.9837
+          ],
+          "n_auto_approved": 96,
+          "accuracy": 0.93,
+          "f1": 0.9346733668341709
+        },
+        "has_boxed_warning": {
+          "auto_approval_rate": 0.31,
+          "auto_approved_precision": 1.0,
+          "auto_approved_precision_ci95": [
+            0.8897,
+            1.0
+          ],
+          "n_auto_approved": 31,
+          "accuracy": 0.95,
+          "f1": 0.9547738693467336
+        },
+        "pharm_class": {
+          "auto_approval_rate": 0.0,
+          "auto_approved_precision": 0.0,
+          "auto_approved_precision_ci95": [
+            0.0,
+            0.0
+          ],
+          "n_auto_approved": 0,
+          "accuracy": 0.18,
+          "f1": 0.062146892655367235
+        }
+      },
+      "strict_accuracy_no_salt_stripping": {
+        "generic_name": 0.81,
+        "active_ingredients": 0.79
+      }
+    }
+  },
+  "n_approved_but_disagreeing_with_openfda": 14,
+  "audit": {
+    "what": "Manual audit of every approved value that disagrees with openFDA on the 150 test labels (14 cases, all of them; none dropped). Classified by Claude from the saved outputs and the label text, one reviewer, no domain expert. It does NOT change the official scores, which are against openFDA.",
+    "n_cases": 14,
+    "counts": {
+      "openfda_gold_missing_or_incomplete": 9,
+      "same_value_different_wording": 4,
+      "model_wrong": 1
+    },
+    "two_way_view": {
+      "model_wrong": 1,
+      "not_a_model_error (openFDA gap/convention or same drug worded differently)": 13
+    },
+    "by_field": {
+      "route": 7,
+      "generic_name": 3,
+      "active_ingredients": 4
+    },
+    "cases": [
+      {
+        "set_id": "e67dee40-b243-4d6b-bc6b-e52c6cb798b8",
+        "field": "route",
+        "predicted": "TOPICAL",
+        "openfda": {
+          "generic_name": "LIDOCAINE HYDROCHLORIDE",
+          "substance_name": [
+            "LIDOCAINE HYDROCHLORIDE"
+          ],
+          "route": "ORAL"
+        },
+        "classification": "openfda_gold_missing_or_incomplete",
+        "reason": "label text says topical use on mucous membranes; openFDA lists ORAL (mouth application), so the gold is arguable"
+      },
+      {
+        "set_id": "1e940ba6-3916-4fc4-8886-481fc9685fc1",
+        "field": "generic_name",
+        "predicted": "lidocaine patch 5%",
+        "openfda": {
+          "generic_name": "LIDOCAINE",
+          "substance_name": [
+            "LIDOCAINE"
+          ],
+          "route": "TOPICAL"
+        },
+        "classification": "same_value_different_wording",
+        "reason": "same drug; the model added the product form and strength ('patch 5%'), which are not in the ignored form-word list"
+      },
+      {
+        "set_id": "9d4b28b4-c582-4e2c-abd9-f7e203378e2d",
+        "field": "route",
+        "predicted": "OPHTHALMIC",
+        "openfda": {
+          "generic_name": "BRILLIANT BLUE G",
+          "substance_name": [
+            "BRILLIANT BLUE G"
+          ],
+          "route": "INTRAOCULAR"
+        },
+        "classification": "openfda_gold_missing_or_incomplete",
+        "reason": "openFDA says INTRAOCULAR, which is more specific; the allowed route list had no INTRAOCULAR, so OPHTHALMIC is reasonable"
+      },
+      {
+        "set_id": "74bad838-2800-4d36-a3ee-cc1d739d24c2",
+        "field": "generic_name",
+        "predicted": "lidocaine HCl",
+        "openfda": {
+          "generic_name": "LIDOCAINE HYDROCHLORIDE,EPINEPHRINE BITARTRATE",
+          "substance_name": [
+            "LIDOCAINE HYDROCHLORIDE ANHYDROUS",
+            "EPINEPHRINE BITARTRATE"
+          ],
+          "route": "INFILTRATION"
+        },
+        "classification": "model_wrong",
+        "reason": "label covers lidocaine with epinephrine (openFDA lists both); the model named only lidocaine HCl"
+      },
+      {
+        "set_id": "945419b8-6184-f4f3-e053-2a95a90a6236",
+        "field": "route",
+        "predicted": "INTRAVENOUS",
+        "openfda": {
+          "generic_name": "MAGNESIUM SULFATE",
+          "substance_name": [
+            "MAGNESIUM SULFATE HEPTAHYDRATE"
+          ],
+          "route": "INTRAMUSCULAR"
+        },
+        "classification": "openfda_gold_missing_or_incomplete",
+        "reason": "label says IV or IM; openFDA lists several routes and only the first (IM) is scored, the model's IV is a real route of the label"
+      },
+      {
+        "set_id": "e45cc371-9ebc-4904-12bc-65cb4e2817ad",
+        "field": "active_ingredients",
+        "predicted": [
+          "aminolevulinic acid HCl"
+        ],
+        "openfda": {
+          "generic_name": "AMINOLEVULINIC ACID HYDROCHLORIDE",
+          "substance_name": [],
+          "route": ""
+        },
+        "classification": "openfda_gold_missing_or_incomplete",
+        "reason": "openFDA substance_name is empty for this label, so the gold ingredient list is missing"
+      },
+      {
+        "set_id": "e45cc371-9ebc-4904-12bc-65cb4e2817ad",
+        "field": "route",
+        "predicted": "TOPICAL",
+        "openfda": {
+          "generic_name": "AMINOLEVULINIC ACID HYDROCHLORIDE",
+          "substance_name": [],
+          "route": ""
+        },
+        "classification": "openfda_gold_missing_or_incomplete",
+        "reason": "openFDA route is empty for this label; the text clearly says topical"
+      },
+      {
+        "set_id": "1ac7d061-3380-468c-b077-c05f8dfbc829",
+        "field": "active_ingredients",
+        "predicted": [
+          "adalimumab-adaz"
+        ],
+        "openfda": {
+          "generic_name": "ADALIMUMAB-ADAZ",
+          "substance_name": [
+            "ADALIMUMAB"
+          ],
+          "route": "SUBCUTANEOUS"
+        },
+        "classification": "openfda_gold_missing_or_incomplete",
+        "reason": "openFDA records the base name ADALIMUMAB; the label text says adalimumab-adaz, which the model copied"
+      },
+      {
+        "set_id": "820839ef-e53d-47e8-a3b9-d911ff92e6a9",
+        "field": "generic_name",
+        "predicted": "tiotropium bromide inhalation powder",
+        "openfda": {
+          "generic_name": "TIOTROPIUM BROMIDE",
+          "substance_name": [
+            "TIOTROPIUM BROMIDE MONOHYDRATE"
+          ],
+          "route": "ORAL"
+        },
+        "classification": "same_value_different_wording",
+        "reason": "same drug; the model added 'inhalation powder', which is not in the ignored form-word list"
+      },
+      {
+        "set_id": "820839ef-e53d-47e8-a3b9-d911ff92e6a9",
+        "field": "route",
+        "predicted": "RESPIRATORY (INHALATION)",
+        "openfda": {
+          "generic_name": "TIOTROPIUM BROMIDE",
+          "substance_name": [
+            "TIOTROPIUM BROMIDE MONOHYDRATE"
+          ],
+          "route": "ORAL"
+        },
+        "classification": "openfda_gold_missing_or_incomplete",
+        "reason": "openFDA says ORAL; the label says 'oral inhalation only', so respiratory/inhalation is the better route"
+      },
+      {
+        "set_id": "2b2621e7-a69e-4286-a7e7-0fc31a91fe29",
+        "field": "active_ingredients",
+        "predicted": [
+          "bromfenac sodium sesquihydrate"
+        ],
+        "openfda": {
+          "generic_name": "BROMFENAC",
+          "substance_name": [
+            "BROMFENAC SODIUM"
+          ],
+          "route": "OPHTHALMIC"
+        },
+        "classification": "same_value_different_wording",
+        "reason": "same drug; the label says 'bromfenac sodium sesquihydrate' and openFDA says 'bromfenac sodium' (hydrate word not in the list)"
+      },
+      {
+        "set_id": "5cf93bc5-9e4c-4734-bc02-c7d0ac071022",
+        "field": "route",
+        "predicted": "INTRAVENOUS",
+        "openfda": {
+          "generic_name": "CEFTRIAXONE",
+          "substance_name": [
+            "CEFTRIAXONE SODIUM"
+          ],
+          "route": "INTRAMUSCULAR"
+        },
+        "classification": "openfda_gold_missing_or_incomplete",
+        "reason": "label says IV or IM; openFDA lists several routes and only the first (IM) is scored"
+      },
+      {
+        "set_id": "6a970e80-b753-48fa-9fff-87e7a5044982",
+        "field": "active_ingredients",
+        "predicted": [
+          "sitagliptin free base"
+        ],
+        "openfda": {
+          "generic_name": "SITAGLIPTIN",
+          "substance_name": [
+            "SITAGLIPTIN"
+          ],
+          "route": "ORAL"
+        },
+        "classification": "same_value_different_wording",
+        "reason": "same drug; the label says 'sitagliptin free base', openFDA says 'sitagliptin' ('free base' is not in the list)"
+      },
+      {
+        "set_id": "d2f5bfa0-933e-46d0-8b1a-9f90e6aaba54",
+        "field": "route",
+        "predicted": "INTRAVENOUS",
+        "openfda": {
+          "generic_name": "NALOXONE HYDROCHLORIDE",
+          "substance_name": [
+            "NALOXONE HYDROCHLORIDE"
+          ],
+          "route": "PARENTERAL"
+        },
+        "classification": "openfda_gold_missing_or_incomplete",
+        "reason": "openFDA says PARENTERAL (not in the allowed list); the label says IV, IM or subcutaneous, and the model picked IV"
+      }
+    ]
+  },
+  "caveats": [
+    "Simulated review workload on public labels; 'correct' means equal to the openFDA structured data under the pre-registered matching rules.",
+    "Gold values come from openFDA and are sometimes incomplete or wrong (see audit); official numbers are scored against openFDA only.",
+    "has_boxed_warning is close to a lookup: a boxed-warning section, when it exists, is part of the text the model reads.",
+    "pharm_class is always reviewed by policy (amendment 2026-11-06); it is scored for accuracy and F1 but never auto-approved.",
+    "Model self-rated confidence carried almost no information (99% 'high' on most fields); the verbatim-quote check is the real gate.",
+    "Rules were amended once, after the train run and before any test output was seen (PLAN.md)."
+  ]
+}

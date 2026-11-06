@@ -1,0 +1,262 @@
+[
+  {
+    "set_id": "e67dee40-b243-4d6b-bc6b-e52c6cb798b8",
+    "field": "route",
+    "predicted": "TOPICAL",
+    "quotes": [
+      "is administered topically",
+      "topical anesthesia of irritated or inflamed mucous membranes"
+    ],
+    "openfda": {
+      "generic_name": "LIDOCAINE HYDROCHLORIDE",
+      "substance_name": [
+        "LIDOCAINE HYDROCHLORIDE"
+      ],
+      "route": "ORAL",
+      "pharm_class_epc": [],
+      "has_boxed_warning_section": true
+    }
+  },
+  {
+    "set_id": "1e940ba6-3916-4fc4-8886-481fc9685fc1",
+    "field": "generic_name",
+    "predicted": "lidocaine patch 5%",
+    "quotes": [
+      "Lidocaine patch 5% is indicated for relief of pain associated with post-herpetic neuralgia.",
+      "Apply lidocaine patch 5% to intact skin to cover the most painful area."
+    ],
+    "openfda": {
+      "generic_name": "LIDOCAINE",
+      "substance_name": [
+        "LIDOCAINE"
+      ],
+      "route": "TOPICAL",
+      "pharm_class_epc": [
+        "Amide Local Anesthetic [EPC]",
+        "Antiarrhythmic [EPC]"
+      ],
+      "has_boxed_warning_section": false
+    }
+  },
+  {
+    "set_id": "9d4b28b4-c582-4e2c-abd9-f7e203378e2d",
+    "field": "route",
+    "predicted": "OPHTHALMIC",
+    "quotes": [
+      "Brilliant Blue G Ophthalmic Solution",
+      "for intraocular ophthalmic use"
+    ],
+    "openfda": {
+      "generic_name": "BRILLIANT BLUE G",
+      "substance_name": [
+        "BRILLIANT BLUE G"
+      ],
+      "route": "INTRAOCULAR",
+      "pharm_class_epc": [
+        "Disclosing Agent [EPC]"
+      ],
+      "has_boxed_warning_section": false
+    }
+  },
+  {
+    "set_id": "74bad838-2800-4d36-a3ee-cc1d739d24c2",
+    "field": "generic_name",
+    "predicted": "lidocaine HCl",
+    "quotes": [
+      "Xylocaine (lidocaine HCl) Injections are sterile, nonpyrogenic, aqueous solutions",
+      "lidocaine HCl, which is chemically designated as acetamide, 2-(diethylamino)-N-(2,6-dimethylphenyl)-, monohydrochloride"
+    ],
+    "openfda": {
+      "generic_name": "LIDOCAINE HYDROCHLORIDE,EPINEPHRINE BITARTRATE",
+      "substance_name": [
+        "LIDOCAINE HYDROCHLORIDE ANHYDROUS",
+        "EPINEPHRINE BITARTRATE"
+      ],
+      "route": "INFILTRATION",
+      "pharm_class_epc": [],
+      "has_boxed_warning_section": false
+    }
+  },
+  {
+    "set_id": "945419b8-6184-f4f3-e053-2a95a90a6236",
+    "field": "route",
+    "predicted": "INTRAVENOUS",
+    "quotes": [
+      "It is administered by the intravenous (IV) or intramuscular (IM) routes"
+    ],
+    "openfda": {
+      "generic_name": "MAGNESIUM SULFATE",
+      "substance_name": [
+        "MAGNESIUM SULFATE HEPTAHYDRATE"
+      ],
+      "route": "INTRAMUSCULAR",
+      "pharm_class_epc": [],
+      "has_boxed_warning_section": false
+    }
+  },
+  {
+    "set_id": "e45cc371-9ebc-4904-12bc-65cb4e2817ad",
+    "field": "active_ingredients",
+    "predicted": [
+      "aminolevulinic acid HCl"
+    ],
+    "quotes": [
+      "aminolevulinic acid HCl as a dry solid",
+      "contains the hydrochloride salt of aminolevulinic acid (ALA)"
+    ],
+    "openfda": {
+      "generic_name": "AMINOLEVULINIC ACID HYDROCHLORIDE",
+      "substance_name": [],
+      "route": "",
+      "pharm_class_epc": [],
+      "has_boxed_warning_section": false
+    }
+  },
+  {
+    "set_id": "e45cc371-9ebc-4904-12bc-65cb4e2817ad",
+    "field": "route",
+    "predicted": "TOPICAL",
+    "quotes": [
+      "LEVULAN KERASTICK (aminolevulinic acid HCl) for topical solution, 20%",
+      "For topical use only"
+    ],
+    "openfda": {
+      "generic_name": "AMINOLEVULINIC ACID HYDROCHLORIDE",
+      "substance_name": [],
+      "route": "",
+      "pharm_class_epc": [],
+      "has_boxed_warning_section": false
+    }
+  },
+  {
+    "set_id": "1ac7d061-3380-468c-b077-c05f8dfbc829",
+    "field": "active_ingredients",
+    "predicted": [
+      "adalimumab-adaz"
+    ],
+    "quotes": [
+      "Each 0.8 mL of HYRIMOZ contains adalimumab-adaz (80 mg)"
+    ],
+    "openfda": {
+      "generic_name": "ADALIMUMAB-ADAZ",
+      "substance_name": [
+        "ADALIMUMAB"
+      ],
+      "route": "SUBCUTANEOUS",
+      "pharm_class_epc": [
+        "Tumor Necrosis Factor Blocker [EPC]"
+      ],
+      "has_boxed_warning_section": true
+    }
+  },
+  {
+    "set_id": "820839ef-e53d-47e8-a3b9-d911ff92e6a9",
+    "field": "generic_name",
+    "predicted": "tiotropium bromide inhalation powder",
+    "quotes": [
+      "SPIRIVA HANDIHALER (tiotropium bromide inhalation powder) is indicated for the long-term, once-daily, maintenance treatment of bronchospasm associated with chronic obstructive pulmonary disease (COPD)"
+    ],
+    "openfda": {
+      "generic_name": "TIOTROPIUM BROMIDE",
+      "substance_name": [
+        "TIOTROPIUM BROMIDE MONOHYDRATE"
+      ],
+      "route": "ORAL",
+      "pharm_class_epc": [],
+      "has_boxed_warning_section": false
+    }
+  },
+  {
+    "set_id": "820839ef-e53d-47e8-a3b9-d911ff92e6a9",
+    "field": "route",
+    "predicted": "RESPIRATORY (INHALATION)",
+    "quotes": [
+      "The contents of SPIRIVA capsules are intended for oral inhalation only",
+      "For oral inhalation only."
+    ],
+    "openfda": {
+      "generic_name": "TIOTROPIUM BROMIDE",
+      "substance_name": [
+        "TIOTROPIUM BROMIDE MONOHYDRATE"
+      ],
+      "route": "ORAL",
+      "pharm_class_epc": [],
+      "has_boxed_warning_section": false
+    }
+  },
+  {
+    "set_id": "2b2621e7-a69e-4286-a7e7-0fc31a91fe29",
+    "field": "active_ingredients",
+    "predicted": [
+      "bromfenac sodium sesquihydrate"
+    ],
+    "quotes": [
+      "Each mL contains bromfenac sodium sesquihydrate 0.0863% (0.863 mg) equivalent to bromfenac free acid 0.075% (0.75 mg)"
+    ],
+    "openfda": {
+      "generic_name": "BROMFENAC",
+      "substance_name": [
+        "BROMFENAC SODIUM"
+      ],
+      "route": "OPHTHALMIC",
+      "pharm_class_epc": [],
+      "has_boxed_warning_section": false
+    }
+  },
+  {
+    "set_id": "5cf93bc5-9e4c-4734-bc02-c7d0ac071022",
+    "field": "route",
+    "predicted": "INTRAVENOUS",
+    "quotes": [
+      "sterile, semisynthetic, broad-spectrum cephalosporin antibiotic for intravenous or intramuscular administration"
+    ],
+    "openfda": {
+      "generic_name": "CEFTRIAXONE",
+      "substance_name": [
+        "CEFTRIAXONE SODIUM"
+      ],
+      "route": "INTRAMUSCULAR",
+      "pharm_class_epc": [],
+      "has_boxed_warning_section": false
+    }
+  },
+  {
+    "set_id": "6a970e80-b753-48fa-9fff-87e7a5044982",
+    "field": "active_ingredients",
+    "predicted": [
+      "sitagliptin free base"
+    ],
+    "quotes": [
+      "Each film coated tablet of sitagliptin contains sitagliptin free base 25 mg, 50 mg, or 100 mg as active ingredient"
+    ],
+    "openfda": {
+      "generic_name": "SITAGLIPTIN",
+      "substance_name": [
+        "SITAGLIPTIN"
+      ],
+      "route": "ORAL",
+      "pharm_class_epc": [
+        "Dipeptidyl Peptidase 4 Inhibitor [EPC]"
+      ],
+      "has_boxed_warning_section": false
+    }
+  },
+  {
+    "set_id": "d2f5bfa0-933e-46d0-8b1a-9f90e6aaba54",
+    "field": "route",
+    "predicted": "INTRAVENOUS",
+    "quotes": [
+      "Naloxone Hydrochloride Injection is available as a sterile solution for intravenous, intramuscular and subcutaneous administration",
+      "Naloxone hydrochloride injection may be administered intravenously, intramuscularly, or subcutaneously"
+    ],
+    "openfda": {
+      "generic_name": "NALOXONE HYDROCHLORIDE",
+      "substance_name": [
+        "NALOXONE HYDROCHLORIDE"
+      ],
+      "route": "PARENTERAL",
+      "pharm_class_epc": [],
+      "has_boxed_warning_section": false
+    }
+  }
+]
