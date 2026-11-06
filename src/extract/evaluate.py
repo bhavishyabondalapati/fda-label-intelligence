@@ -4,7 +4,9 @@ records: one dict per label from scripts/run_extraction.py (has "set_id", "valid
 labels:  {set_id: labels.jsonl record} (the gold lives here; the workflow never saw it).
 """
 from src.extract.scoring import FIELDS, f1_from_counts, gold_fields, pred_fields, strict_correct
-from src.extract.validate import route_decisions
+import math
+
+from src.extract.validate import REVIEW_ONLY, route_decisions
 
 CONF_SETTINGS = ["low", "medium", "high"]       # "low" = no confidence requirement (gates only)
 
@@ -17,6 +19,17 @@ def values_of(rec):
     return {f: (ex.get(f) or {}).get("value") if isinstance(ex.get(f), dict) else None for f in FIELDS}
 
 
+def wilson(k, n, z=1.96):
+    """95% Wilson confidence interval for a proportion k/n."""
+    if n == 0:
+        return [0.0, 0.0]
+    p = k / n
+    d = 1 + z * z / n
+    c = p + z * z / (2 * n)
+    a = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n))
+    return [round((c - a) / d, 4), round((c + a) / d, 4)]
+
+
 def evaluate(records, labels, min_conf):
     rows = []                                   # one row per (label, field)
     per_label_ok = []
@@ -24,15 +37,13 @@ def evaluate(records, labels, min_conf):
         lab = labels[rec["set_id"]]
         gold, pred = gold_fields(lab), pred_fields(values_of(rec))
         dec = route_decisions(rec["validation"], min_conf)
-        all_ok = True
         from src.extract.scoring import field_correct, field_items
         for f in FIELDS:
             approved = dec[f]["approved"]
             correct = field_correct(f, pred[f], gold[f])
             rows.append({"set_id": rec["set_id"], "field": f, "approved": approved, "correct": correct,
                          "items": field_items(f, pred[f], gold[f])})
-            all_ok = all_ok and approved
-        per_label_ok.append(all_ok)
+        per_label_ok.append(all(dec[f]["approved"] for f in FIELDS if f not in REVIEW_ONLY))
 
     def rate(sel):
         return sum(sel) / len(sel) if sel else 0.0
@@ -46,7 +57,9 @@ def evaluate(records, labels, min_conf):
         "n_field_values": n,
         "per_field_auto_approval_rate": rate([r["approved"] for r in rows]),
         "per_label_auto_approval_rate": rate(per_label_ok),
+        "per_label_definition": "all fields except review-only ones (" + ", ".join(sorted(REVIEW_ONLY)) + ") approved",
         "auto_approved_precision": rate([r["correct"] for r in approved]),
+        "auto_approved_precision_ci95": wilson(sum(r["correct"] for r in approved), len(approved)),
         "n_auto_approved": len(approved),
         "n_wrong_extractions": len(wrong),
         "wrong_sent_to_review": sum(1 for r in wrong if not r["approved"]),
@@ -64,6 +77,7 @@ def evaluate(records, labels, min_conf):
         out["by_field"][f] = {
             "auto_approval_rate": rate([r["approved"] for r in fr]),
             "auto_approved_precision": rate([r["correct"] for r in fa]),
+            "auto_approved_precision_ci95": wilson(sum(r["correct"] for r in fa), len(fa)),
             "n_auto_approved": len(fa), "accuracy": rate([r["correct"] for r in fr]),
             "f1": f1_from_counts(ftp, ffp, ffn)["f1"]}
     strict = {}

@@ -163,6 +163,11 @@ def _cross_field(out):
             ing["reasons"].append("consistency: ingredients do not match the generic name")
 
 
+# AMENDMENT 2026-11-06: these fields are never auto-approved (policy). openFDA's pharmacologic class is missing for
+# about 61% of labels even when the label text names a class, so the answer key cannot support auto-approval.
+REVIEW_ONLY = frozenset({"pharm_class"})
+
+
 def route_decisions(validation, min_conf):
     """route node logic. A field is auto-approved iff its gates passed AND its confidence >= min_conf.
     Returns {field: {"approved": bool, "queue_reasons": [...]}}. Confidence can never rescue a failed gate."""
@@ -172,5 +177,7 @@ def route_decisions(validation, min_conf):
         reasons = list(v["reasons"])
         if v["gates_pass"] and CONF_RANK.get(v["confidence"], 0) < need:
             reasons.append(f"confidence {v['confidence']} is below {min_conf}")
+        if f in REVIEW_ONLY:
+            reasons.append("policy: this field is always reviewed by a person")
         res[f] = {"approved": not reasons, "queue_reasons": reasons}
     return res

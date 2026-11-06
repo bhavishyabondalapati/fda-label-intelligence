@@ -23,6 +23,12 @@ trihydrate hydrate anhydrous tromethamine hyclate propionate dipropionate mesyla
 oxalate medoxomil mononitrate nitrate fluoride pamoate benzoate lactate gluconate decanoate valerate furoate olamine
 etabonate proxetil acetonide dimeglumine tablets tablet usp""".split())
 
+# AMENDMENT 2026-11-06 (after the train run, before the test run): dosage-form words are also ignored in names,
+# on BOTH sides. A short fixed list, chosen from the train errors ("hydrocortisone cream" vs "hydrocortisone").
+FORM_WORDS = frozenset("""cream gel ointment solution injection ophthalmic oral topical er xr extended release for
+suspension capsule capsules lotion spray""".split())
+IGNORED_NAME_WORDS = SALT_WORDS | FORM_WORDS
+
 
 def normalize(s):
     """lowercase; every non-alphanumeric character becomes a space; whitespace collapsed."""
@@ -30,10 +36,10 @@ def normalize(s):
 
 
 def name_key(s):
-    """Salt-insensitive key of a drug name: the set of its words minus salt words and 'and'.
+    """Salt- and dosage-form-insensitive key of a drug name: the set of its words minus salt words, form words and 'and'.
     If nothing is left (e.g. 'sodium chloride'), keep the words (minus 'and')."""
     words = [w for w in normalize(s).split() if w != "and"]
-    kept = [w for w in words if w not in SALT_WORDS]
+    kept = [w for w in words if w not in IGNORED_NAME_WORDS]
     return frozenset(kept or words)
 
 

@@ -127,3 +127,24 @@ def test_graph_skips_summary_when_nothing_queued(tmp_path):
     llm = FakeLLM([json.dumps(e)])
     g = build_graph(llm, ledger, {"x": {"indications_and_usage": SRC}})
     assert "summary" not in g.invoke({"set_id": "x", "min_conf": "low", "do_summary": False})
+
+
+def test_pharm_class_is_never_auto_approved_even_with_perfect_evidence():
+    e = good()
+    e["pharm_class"] = field(["Sildenafil"], ["Sildenafil citrate tablets"])
+    v = validate_extraction(e, SRC)
+    assert v["pharm_class"]["gates_pass"]
+    d = route_decisions(v, "low")
+    assert not d["pharm_class"]["approved"] and "policy" in d["pharm_class"]["queue_reasons"][-1]
+
+
+def test_per_label_approval_ignores_review_only_fields():
+    from src.extract.evaluate import evaluate
+    e = good()
+    e["has_boxed_warning"] = field(True, ["WARNING: serious heart risk"])
+    rec = {"set_id": "x", "extraction": e, "validation": validate_extraction(e, SRC)}
+    lab = {"x": {"generic_name": "SILDENAFIL", "substance_name": ["SILDENAFIL CITRATE"], "route": "ORAL",
+                 "pharm_class_epc": [], "sections": ["boxed_warning"]}}
+    r = evaluate([rec], lab, "high")
+    assert r["per_label_auto_approval_rate"] == 1.0 and r["per_field_auto_approval_rate"] == 5 / 6
+    assert r["auto_approved_precision"] == 1.0

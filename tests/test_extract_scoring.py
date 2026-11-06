@@ -78,3 +78,14 @@ def test_f1_formula():
 def test_strict_names_do_not_strip_salts():
     assert strict_correct("generic_name", "sildenafil", LABEL) is False
     assert strict_correct("generic_name", "Sildenafil citrate", LABEL) is True
+
+
+def test_form_words_ignored_on_both_sides():
+    from src.extract.scoring import FORM_WORDS
+    assert name_key("hydrocortisone cream") == name_key("HYDROCORTISONE")
+    assert name_key("METOPROLOL SUCCINATE ER TABLETS") == name_key("metoprolol succinate")
+    assert name_key("tobramycin ophthalmic solution") == name_key("Tobramycin")
+    assert name_key("estradiol") != name_key("estriol cream")
+    assert "oral" in FORM_WORDS and len(FORM_WORDS) == 18
+    # a name made only of ignored words is kept whole
+    assert name_key("Sterile Water for Injection, USP") == name_key("sterile water")
