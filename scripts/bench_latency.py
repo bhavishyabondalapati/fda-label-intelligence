@@ -74,8 +74,10 @@ def run(http, queries):
 def summarize(rows):
     comp = {"end_to_end_client": stats([r["end_to_end"] for r in rows])}
     comp["service_total"] = stats([r["total"] for r in rows])
-    for name, key in (("query_embedding", "embed"), ("pinecone_call", "pinecone"), ("text_lookup", "lookup")):
-        comp[name] = stats([r[key] for r in rows])
+    for name, key in (("query_embedding", "embed"), ("pinecone_call", "pinecone"), ("text_lookup", "lookup"),
+                      ("bm25", "bm25"), ("rerank", "rerank")):        # bm25 / rerank exist only in the Phase 2 pipeline
+        if key in rows[0]:
+            comp[name] = stats([r[key] for r in rows])
     return comp
 
 
@@ -86,6 +88,7 @@ def main():
     ap.add_argument("--cold", type=int, default=20)
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--out", type=Path, default=ROOT / "results" / "latency_phase1.json")
+    ap.add_argument("--namespace", default=None, help="Pinecone namespace to count vectors in (default: Phase 1's)")
     args = ap.parse_args()
 
     queries = build_queries(args.cold + args.warm, args.seed)
@@ -94,7 +97,8 @@ def main():
     # vector count in the index (the claim needs >= 100,000)
     from src.retrieve.pinecone_store import get_client
     index = get_client().Index(common.PINECONE_INDEX)
-    n_vectors = index.describe_index_stats().namespaces.get(common.PINECONE_NAMESPACE, {}).get("vector_count", 0)
+    namespace = args.namespace or common.PINECONE_NAMESPACE
+    n_vectors = index.describe_index_stats().namespaces.get(namespace, {}).get("vector_count", 0)
 
     with httpx.Client(base_url=args.url, timeout=60) as http:
         cold_rows = run(http, queries[:args.cold])
@@ -109,7 +113,7 @@ def main():
         "passes_threshold": bool(p95 < THRESHOLD_MS and n_vectors >= 100_000),
         "vectors_in_index": n_vectors,
         "index": common.PINECONE_INDEX,
-        "namespace": common.PINECONE_NAMESPACE,
+        "namespace": namespace,
         "pinecone_region": "aws us-east-1 (Starter plan only allows this region)",
         "n_timed_queries": len(warm_rows),
         "n_cold_queries": len(cold_rows),
@@ -122,7 +126,8 @@ def main():
             "first_20_end_to_end": stats([r["end_to_end"] for r in cold_rows]),
             **{k: v for k, v in summarize(cold_rows).items() if k != "end_to_end_client"},
         },
-        "path": "client -> query service -> embed service (HTTP) -> Pinecone (internet) -> SQLite lookup",
+        "path": "client -> query service -> embed service (HTTP) -> Pinecone (internet) [-> BM25 -> rerank in Phase 2] -> SQLite lookup",
+        "health": httpx.get(f"{args.url}/health", timeout=5).json(),
         "machine": f"{platform.platform()}, {platform.machine()}",
         "run_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
     }
