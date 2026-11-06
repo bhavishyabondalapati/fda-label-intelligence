@@ -74,14 +74,27 @@ def test_build_gold_questions_do_not_name_the_manufacturer():
     assert all(g["route"] == "ORAL" for g in gold)
 
 
-def test_build_gold_allows_same_name_same_route_but_skips_multi_route_names():
+def test_build_gold_puts_route_in_question_for_multi_route_names():
     labels, sections = _fake_labels(4)
     for lab in labels:                      # same name on every label, all retrieval_eval
         lab["brand_name"] = lab["drug_name"] = "Same"
         lab["split"] = "retrieval_eval"
-    assert len(build_gold(labels, sections, n_questions=4, seed=1)) == 4   # same route: fine
-    labels[0]["route"] = "TOPICAL"          # now "Same" means two different routes
-    assert build_gold(labels, sections, n_questions=4, seed=1) == []
+    gold = build_gold(labels, sections, n_questions=4, seed=1)
+    assert len(gold) == 4 and not any(g["route_in_question"] for g in gold)   # one route: plain name
+    labels[0]["route"], labels[1]["route"] = "TOPICAL", "TOPICAL"             # now two routes exist
+    gold = build_gold(labels, sections, n_questions=4, seed=1)
+    assert len(gold) == 4 and all(g["route_in_question"] for g in gold)
+    assert all(f"({g['route'].lower()})" in g["question"] for g in gold)
+
+
+def test_build_gold_skips_multi_route_label_with_no_route():
+    labels, sections = _fake_labels(2)
+    for lab in labels:
+        lab["brand_name"] = lab["drug_name"] = "Same"
+        lab["split"] = "retrieval_eval"
+    labels[0]["route"] = ""                 # "Same" now exists as "" and "ORAL": the "" one cannot be asked
+    gold = build_gold(labels, sections, n_questions=2, seed=1)
+    assert [g["set_id"] for g in gold] == ["id1"]
 
 
 def test_relaxed_hit_accepts_other_manufacturers_copy_of_same_drug_and_route():

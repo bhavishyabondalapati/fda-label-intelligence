@@ -47,6 +47,7 @@ def main():
             f.write(json.dumps(g) + "\n")
     print(f"Wrote {len(gold)} questions to {args.out}")
     print("By section:", dict(Counter(g["section"] for g in gold)))
+    print("Questions with route in text:", sum(g["route_in_question"] for g in gold))
     print("Distinct drugs:", len({g["drug_name"] for g in gold}))
 
 

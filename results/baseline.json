@@ -2,30 +2,30 @@
   "system": "baseline",
   "description": "naive fixed-size chunks, all-MiniLM-L6-v2, dense only, local exact numpy index",
   "relevance_rule": "relaxed (primary): same normalized drug name + route as the gold label, chunk covers that label's copy of the gold section",
-  "recall_at_1": 0.315,
-  "recall_at_5": 0.465,
-  "mrr_at_10": 0.3828,
-  "n_hits_at_5": 93,
+  "recall_at_1": 0.23,
+  "recall_at_5": 0.475,
+  "mrr_at_10": 0.3312,
+  "n_hits_at_5": 95,
   "strict_crosscheck": {
     "rule": "exact gold set_id, chunk covers gold section",
-    "recall_at_1": 0.085,
-    "recall_at_5": 0.21,
-    "mrr_at_10": 0.1395,
-    "n_hits_at_5": 42
+    "recall_at_1": 0.06,
+    "recall_at_5": 0.235,
+    "mrr_at_10": 0.1307,
+    "n_hits_at_5": 47
   },
   "n_questions": 200,
-  "mean_relevant_labels_per_question": 12.27,
+  "mean_relevant_labels_per_question": 11.98,
   "per_section_recall_at_5": {
-    "adverse_reactions": 0.647,
-    "boxed_warning": 0.235,
+    "adverse_reactions": 0.941,
+    "boxed_warning": 0.176,
     "contraindications": 0.294,
-    "description": 0.882,
-    "dosage_and_administration": 0.824,
+    "description": 0.765,
+    "dosage_and_administration": 0.765,
     "drug_interactions": 0.176,
-    "how_supplied": 0.471,
-    "indications_and_usage": 0.118,
-    "mechanism_of_action": 0.353,
-    "overdosage": 0.824,
+    "how_supplied": 0.765,
+    "indications_and_usage": 0.059,
+    "mechanism_of_action": 0.294,
+    "overdosage": 0.706,
     "storage_and_handling": 0.385,
     "warnings_and_cautions": 0.353
   },
@@ -55,7 +55,7 @@
   },
   "timing": {
     "embed_seconds": 0.2,
-    "search_ms_per_query": 2.57,
+    "search_ms_per_query": 2.75,
     "device": "mps"
   },
   "manifest": {
@@ -72,7 +72,7 @@
       "extraction_test": 479
     }
   },
-  "gold_file_sha256": "3592956d31194982d258c90e5f19553fd371b789141401a39691448b7d331379",
-  "run_at": "2026-11-06T03:49:50+00:00",
+  "gold_file_sha256": "f344ef83a4657ffcfa6b465104a3e2a123635258ac01ee0945917a7ec1f2a0ef",
+  "run_at": "2026-11-06T04:07:31+00:00",
   "machine": "macOS-26.6.2-arm64-arm-64bit"
 }

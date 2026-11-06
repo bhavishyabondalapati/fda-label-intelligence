@@ -77,9 +77,10 @@ def build_gold(labels, sections_by_label, n_questions=200, seed=42):
     """labels: list of label meta dicts. sections_by_label: set_id -> {section: text}.
 
     Questions name only the drug (no manufacturer): any label with the same drug name and
-    route is an equally good source (see PLAN.md, 2026-11-05 note). A drug name that appears
-    with more than one route in the corpus is skipped, because a question that does not
-    mention the route could not say which one it means.
+    route is an equally good source (see PLAN.md amendments). A drug name that appears with
+    more than one route in the corpus gets the route added to the question text, e.g.
+    "Lidocaine (transdermal)", so the question says which one it means. Such a label with
+    no route recorded cannot be asked about unambiguously and is skipped.
     """
     rng = random.Random(seed)
     routes_by_name = {}
@@ -100,8 +101,10 @@ def build_gold(labels, sections_by_label, n_questions=200, seed=42):
         for lab in pool:
             if len(gold) >= n_questions:
                 break
-            if lab["set_id"] in used or len(routes_by_name[norm_name(lab["drug_name"])]) > 1:
+            multi_route = len(routes_by_name[norm_name(lab["drug_name"])]) > 1
+            if lab["set_id"] in used or (multi_route and not lab["route"].strip()):
                 continue
+            asked_name = f"{lab['drug_name']} ({lab['route'].strip().lower()})" if multi_route else lab["drug_name"]
             texts = sections_by_label[lab["set_id"]]
             options = [s for s in TEMPLATES if s in texts and len(texts[s]) >= MIN_SECTION_CHARS
                        and taken[s] < section_quota]
@@ -113,10 +116,11 @@ def build_gold(labels, sections_by_label, n_questions=200, seed=42):
             used.add(lab["set_id"])
             gold.append({
                 "qid": f"q{len(gold) + 1:04d}",
-                "question": template.format(d=lab["drug_name"]),
+                "question": template.format(d=asked_name),
                 "set_id": lab["set_id"],
                 "section": section,
                 "drug_name": lab["drug_name"],
                 "route": lab["route"],
+                "route_in_question": multi_route,
             })
     return gold

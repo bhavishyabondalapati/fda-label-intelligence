@@ -1,0 +1,3 @@
+# eval-v1 lock: SHA-256 of the frozen eval set and hit rule. See PLAN.md (second amendment).
+data/eval/gold_questions.jsonl f344ef83a4657ffcfa6b465104a3e2a123635258ac01ee0945917a7ec1f2a0ef
+src/eval/metrics.py 4acf910f8c016e042274b226a318237c411a2c238ea32fd663ad31fbd0cbf1ae
