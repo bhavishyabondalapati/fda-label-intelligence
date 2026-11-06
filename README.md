@@ -2,7 +2,7 @@
 
 A GenAI document-processing platform over public FDA drug labels (openFDA, public domain). It chunks, embeds, searches, and extracts structured fields from ~5K prescription drug labels. Every performance number in this repo is produced by a script in this repo, as a relative improvement over a stated baseline.
 
-> **Status: Phase 2 complete (better retrieval + LangChain/Bedrock cited answers).** Eval set and hit rule are frozen as git tag `eval-v1`.
+> **Status: Phase 3 complete (LangGraph extraction + validation + review queue).** Eval set and hit rule are frozen as git tag `eval-v1`.
 >
 > Phase 0 was data, eval set and baseline. See [PLAN.md](PLAN.md) for the full roadmap and exact metric definitions. This README is a stub and is completed in Phase 5.
 
@@ -66,3 +66,42 @@ python scripts/make_phase2_report.py                    # writes results/phase2.
 Generation check (Haiku 4.5, `results/generation_phase2.json`): 15/15 answerable dev questions answered, all with citations that point at retrieved chunks (a valid citation does not prove the answer is faithful; Phase 3 validation covers that); 10/10 unanswerable questions (real drugs missing from the sample) refused with "not enough information". End-to-end latency p50 1.5 s, max 3.1 s (search part p50 about 0.26 s). 41.7K input + 4.2K output tokens, about $0.06.
 
 Answers: `POST :8005/answer` (LangChain retriever over the query service, Claude Haiku 4.5 on Bedrock us-east-2, profile `sky`). Answers cite chunk ids, citations are checked against what was retrieved, and token counts and cost go to `results/bedrock_usage.jsonl` with a hard budget cap.
+
+## Phase 3: extraction, validation and a review queue
+
+A LangGraph workflow reads a drug label and extracts 6 fields, each with a supporting quote. Rules decide which values are auto-approved and which go to a human review queue. Rules, metrics and thresholds were written in `PLAN.md` (M2 pre-registration) before any run.
+
+**Result on 150 `extraction_test` labels (run once, Claude Haiku 4.5; baseline = 100% manual review = 0% auto-approved):**
+
+| Metric | Result |
+|---|---|
+| Auto-approved, per field (headline) | **69.9%** of 900 field values (target >= 40%) |
+| Auto-approved, per label (5 fields; `pharm_class` is always reviewed) | 28.7% |
+| Precision of auto-approved values (vs openFDA) | **97.8%**, 95% CI 96.3 to 98.7 (target >= 95%) |
+| Field F1 over all values (Phase 4's base-model number) | 0.787 |
+| Wrong values sent to review | 89.8% of all wrong values, but only **36%** (8 of 22) once the always-reviewed `pharm_class` is left out |
+| Cost | $0.88 for the test run ($1.40 for all of Phase 3, cap $1.50) |
+
+| Field | Auto-approved | Precision of approved | F1 |
+|---|---|---|---|
+| generic_name | 97% | 0.98 | 0.97 |
+| active_ingredients | 97% | 0.97 | 0.97 |
+| is_combination | 98% | 1.00 | 1.00 |
+| route | 99% | 0.95 | 0.96 |
+| has_boxed_warning | 29% | 1.00 | 0.97 |
+| pharm_class | 0% (always reviewed) | n/a | 0.11 |
+
+**Nodes:** retrieve (fixed section order, about 3K tokens, no metadata or section names) -> extract (Haiku returns value, verbatim quote and confidence per field) -> validate (schema, quote appears word for word in the source, value inside the quote, cross-field consistency; never sees gold) -> route (auto-approve or queue with reasons) -> summarize (reviewer note for queued items).
+
+**What to understand and say honestly:**
+- The model's self-rated confidence was almost useless (it said "high" on 99% of values for most fields). The verbatim-quote check is the safety gate; confidence can only add a requirement, never override a failed quote check.
+- Absence claims (null, empty, false) have nothing to quote, so they are never auto-approved. `pharm_class` is always reviewed because openFDA has no class for about 61% of labels even when the text names one (amendment, 2026-11-06). A second amendment ignores 18 dosage-form words in names. Both were made after the train run and before any test output was seen (see `PLAN.md`); the train numbers behind them are optimistic.
+- 14 approved values disagree with openFDA. A manual audit (`results/phase3_audit.json`, one reviewer, not a domain expert) put 9 down to openFDA being incomplete or arguable (empty fields, only the first route scored, `PARENTERAL`), 4 to the same drug worded differently, and 1 to a real model error. The audit does not change the official numbers.
+- This is a simulated workload on public labels. `has_boxed_warning` is close to a lookup because a boxed-warning section, if present, is in the text the model reads.
+
+```bash
+python scripts/run_extraction.py --split extraction_train --n 100 --summaries 10 --workers 2 --out results/extract_train_raw.jsonl
+python scripts/tune_extraction.py      # pre-registered threshold rule on train (free)
+python scripts/run_extraction.py --split extraction_test --n 150 --summaries 150 --workers 2 --min-conf medium --out results/extract_test_raw.jsonl   # ONE time
+python scripts/eval_phase3.py         # scores the test run, writes results/phase3.json (free)
+```

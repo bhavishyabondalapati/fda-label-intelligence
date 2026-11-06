@@ -61,6 +61,17 @@ def main():
         "mean_output_tokens": round(statistics.mean(u["output_tokens"] for u in ext)),
     }
     dis = disagreements(recs, labels, chosen)
+    # The headline catch rate is inflated by pharm_class (always reviewed). Also report it without that field.
+    wrong_other = caught_other = 0
+    for r in recs:
+        g, p = gold_fields(labels[r["set_id"]]), pred_fields(values_of(r))
+        d = route_decisions(r["validation"], chosen)
+        for f in FIELDS:
+            if f != "pharm_class" and p[f] != g[f]:
+                wrong_other += 1
+                caught_other += not d[f]["approved"]
+    catch_without_review_only = {"wrong_values": wrong_other, "sent_to_review": caught_other,
+                                 "rate": round(caught_other / wrong_other, 4) if wrong_other else None}
     audit_path = ROOT / "results" / "phase3_audit.json"
     out = {
         "what": "Phase 3: LangGraph extraction + validation + review queue, Claude Haiku 4.5, 150 extraction_test labels, run once",
@@ -74,6 +85,7 @@ def main():
         "invalid_json_replies": sum(not isinstance(r["extraction"], dict) for r in recs),
         "cost": cost,
         "train": {k: train[k] for k in ("n_labels", "chosen_min_conf", "choice_rule", "cost")} | {"chosen_setting_result": next(s for s in train["settings"] if s["min_conf"] == chosen)},
+        "queue_catch_excluding_pharm_class": catch_without_review_only,
         "n_approved_but_disagreeing_with_openfda": len(dis),
         "audit": json.loads(audit_path.read_text()) if audit_path.exists() else None,
         "caveats": [

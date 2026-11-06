@@ -430,6 +430,11 @@
       }
     }
   },
+  "queue_catch_excluding_pharm_class": {
+    "wrong_values": 22,
+    "sent_to_review": 8,
+    "rate": 0.3636
+  },
   "n_approved_but_disagreeing_with_openfda": 14,
   "audit": {
     "what": "Manual audit of every approved value that disagrees with openFDA on the 150 test labels (14 cases, all of them; none dropped). Classified by Claude from the saved outputs and the label text, one reviewer, no domain expert. It does NOT change the official scores, which are against openFDA.",
