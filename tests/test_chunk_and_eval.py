@@ -73,3 +73,8 @@ def test_build_gold_skips_ambiguous_names():
         lab["brand_name"] = lab["drug_name"] = "Same"
         lab["split"] = "retrieval_eval"
     assert build_gold(labels, sections, n_questions=4, seed=1) == []
+
+
+def test_mrr():
+    from src.eval.metrics import mrr
+    assert mrr([[True], [False, True], [False, False]]) == pytest.approx((1 + 0.5 + 0) / 3)

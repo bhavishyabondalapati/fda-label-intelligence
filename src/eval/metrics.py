@@ -26,6 +26,19 @@ def recall_at_k(hit_flags_per_query):
     return sum(any(flags) for flags in hit_flags_per_query) / len(hit_flags_per_query)
 
 
+def mrr(hit_flags_per_query):
+    """Mean reciprocal rank: average of 1/rank of the first hit (0 if no hit in the list)."""
+    if not hit_flags_per_query:
+        return 0.0
+    total = 0.0
+    for flags in hit_flags_per_query:
+        for rank, hit in enumerate(flags, start=1):
+            if hit:
+                total += 1 / rank
+                break
+    return total / len(hit_flags_per_query)
+
+
 def relative_improvement(new, baseline):
     """(new - baseline) / baseline. Reported as a fraction, e.g. 0.30 = +30%."""
     if baseline == 0:

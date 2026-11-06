@@ -20,10 +20,10 @@ import numpy as np
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from src.chunk.naive import CHUNK_SIZE, OVERLAP, join_label, naive_chunks  # noqa: E402
-from src.eval.metrics import chunk_hits_gold, recall_at_k  # noqa: E402
+from src.eval.metrics import chunk_hits_gold, mrr, recall_at_k  # noqa: E402
 from src.retrieve.dense import DenseIndex  # noqa: E402
 
-K = 5
+K = 10          # we retrieve 10 so MRR@10 can be computed; recall@5 uses the first 5
 
 
 def read_jsonl(path):
@@ -87,16 +87,20 @@ def main():
             set_id, start, end = chunk_meta[idx]
             flags.append(chunk_hits_gold(set_id, start, end, g["set_id"], span))
         hit_flags.append(flags)
-        per_section[g["section"]].append(any(flags))
+        per_section[g["section"]].append(any(flags[:5]))
 
-    recall = recall_at_k(hit_flags)
+    recall = recall_at_k([f[:5] for f in hit_flags])
+    recall1 = recall_at_k([f[:1] for f in hit_flags])
+    mrr10 = mrr(hit_flags)
     result = {
         "system": "baseline",
         "description": "naive fixed-size chunks, all-MiniLM-L6-v2, dense only, local exact numpy index",
-        "metric": f"recall@{K}",
+        "metric": "recall@5 (primary), absolute values",
         "recall_at_5": round(recall, 4),
+        "recall_at_1": round(recall1, 4),
+        "mrr_at_10": round(mrr10, 4),
         "n_questions": len(gold),
-        "n_hits": int(sum(any(f) for f in hit_flags)),
+        "n_hits_at_5": int(sum(any(f[:5]) for f in hit_flags)),
         "per_section_recall": {s: round(sum(v) / len(v), 3) for s, v in sorted(per_section.items())},
         "per_section_n": {s: len(v) for s, v in sorted(per_section.items())},
         "n_labels": len(sections),
@@ -106,7 +110,7 @@ def main():
             "overlap_chars": OVERLAP,
             "embedding_model": MODEL_NAME,
             "embedding_dim": int(vectors.shape[1]),
-            "k": K,
+            "k_retrieved": K,
             "hit_rule": "same set_id and chunk overlaps gold section by >= min(200, section length) chars",
         },
         "timing": {"embed_seconds": embed_seconds, "search_ms_per_query": search_ms_per_query, "device": device},
@@ -118,8 +122,24 @@ def main():
     result["manifest"].pop("raw_file_sha256", None)   # keep the results file short
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(result, indent=2))
-    print(f"\nrecall@5 = {recall:.4f}  ({result['n_hits']}/{len(gold)})   chunks = {len(chunk_texts)}")
+    print(f"\nrecall@5 = {recall:.4f} ({result['n_hits_at_5']}/{len(gold)})  recall@1 = {recall1:.4f}  "
+          f"MRR@10 = {mrr10:.4f}  chunks = {len(chunk_texts)}")
     print(f"wrote {args.out}")
+
+    # Sanity check: 5 random questions, their gold section, and the top-3 chunks retrieved.
+    import random
+    names = {l["set_id"]: l["drug_name"] for l in read_jsonl(args.data_dir / "labels.jsonl")}
+    sec_of = lambda set_id, start, end: [  # which sections does this chunk overlap?
+        n for n, (a, b) in label_spans[set_id].items() if min(end, b) - max(start, a) > 0]
+    for i in random.Random(0).sample(range(len(gold)), 5):
+        g = gold[i]
+        print(f"\n=== {g['qid']}: {g['question']}")
+        print(f"    GOLD: {names[g['set_id']]} / {g['section']}   hit@5={any(hit_flags[i][:5])}")
+        for rank, idx in enumerate(top[i][:3], start=1):
+            set_id, start, end = chunk_meta[idx]
+            snippet = chunk_texts[idx][:150].replace("\n", " ")
+            print(f"    #{rank} {'HIT ' if hit_flags[i][rank-1] else 'miss'} {names[set_id]} "
+                  f"[{','.join(sec_of(set_id, start, end))}]: {snippet}")
 
 
 if __name__ == "__main__":
