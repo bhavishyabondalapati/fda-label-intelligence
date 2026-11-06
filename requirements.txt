@@ -11,3 +11,11 @@ uvicorn>=0.29         # server that runs a FastAPI app
 httpx>=0.27           # HTTP client (services call each other; also used by FastAPI's TestClient)
 pinecone>=5.0         # Pinecone serverless vector database client
 python-dotenv>=1.0    # load PINECONE_API_KEY etc. from .env
+
+# Phase 2
+scikit-learn
+scipy
+langchain-core
+langchain-aws
+boto3
+botocore[crt]
