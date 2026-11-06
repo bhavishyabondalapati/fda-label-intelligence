@@ -46,6 +46,35 @@ The **search index contains all ~5,000 labels** (needed for scale and realism). 
 - On `extraction_test`: `review reduction = auto-approved extractions / all extractions`, reported only if test precision of the auto-approved set is also >= 95%.
 - Baseline: 100% manual review (every extraction reviewed). So a 40% review reduction means 40% auto-approved. This is a **simulated** workload on public labels, and the README says so.
 
+#### M2 pre-registration (written 2026-11-06, BEFORE any Phase 3 run; frozen before the train run)
+
+**Review unit.** Headline = **per field**: every extracted field value is approved or flagged on its own, and a reviewer only checks flagged fields. `auto-approval rate (per field) = approved field values / all field values`. Secondary = **per label**: a label is auto-approved only if all 6 of its fields are approved. Baseline for both: 0% (everything reviewed).
+
+**Fields (6).** `generic_name` (openfda.generic_name), `active_ingredients` (list, openfda.substance_name), `is_combination` (bool, derived: 2+ distinct ingredients after salt stripping), `route` (openfda.route, first listed), `has_boxed_warning` (bool, a boxed_warning section exists), `pharm_class` (list, openfda.pharm_class_epc; empty list = none). The model only sees section text; the openfda block, label metadata and section names are never in the prompt.
+
+**Matching rules** (implemented and tested in `src/extract/scoring.py`; changing them after the train run is an amendment):
+- Normalize: lowercase, every non-alphanumeric character becomes a space, whitespace collapsed.
+- Salt/form words are removed from BOTH sides before comparing names (frozen list `SALT_WORDS` in the module: hydrochloride, hcl, sodium, potassium, sulfate, tartrate, citrate, etc.). If removal would leave nothing (e.g. "sodium chloride"), the name is kept whole. So "SILDENAFIL CITRATE" matches "sildenafil"; "metoprolol succinate" matches "metoprolol tartrate" (known, accepted looseness: a reviewer sees the same drug). A strict (no salt stripping) accuracy is also reported as a secondary number.
+- `generic_name`: correct if the sets of remaining tokens are equal (word order and "and"/commas ignored).
+- `active_ingredients`: correct if the SETS of salt-stripped ingredient names are equal. For F1, each ingredient is one item.
+- `is_combination`: gold = (number of distinct salt-stripped gold ingredients >= 2). Exact boolean match.
+- `route`: uppercase, normalized; exact match to the gold route. Gold route empty = expected null. Only the first openFDA route is gold (known limitation: multi-route labels are scored against one route).
+- `has_boxed_warning`: exact boolean match.
+- `pharm_class`: each class has a trailing bracket suffix such as `[EPC]` removed, then is normalized; correct if the SETS are equal. Null and the empty list are the same thing ("none").
+- **Field F1** is micro-averaged over all field values: scalar fields count as one item (match = TP; wrong value = FP and FN; null prediction with non-null gold = FN; non-null prediction with null gold = FP; both null = ignored); list fields count each element.
+
+**Validation (never sees gold).** A field is auto-approved only if ALL gates pass:
+1. Schema valid (right types, route from the allowed list).
+2. **Verbatim-quote gate (required):** the field has at least one supporting quote (3 to 300 characters) that appears word for word in the source text sent to the model (case-insensitive, whitespace collapsed).
+3. Value-support gate: the value's own tokens (or, for route, a cue word for that route) appear inside the quote(s).
+4. Cross-field consistency: `is_combination` must equal (2+ ingredients in `active_ingredients`) and is approved only if `active_ingredients` is approved.
+5. Confidence gate (below).
+- **Absence is never auto-approved.** A null, empty list, or `false` claim has no text to quote, so it is always flagged (this includes `has_boxed_warning = false` and `pharm_class = []`). `is_combination` is the one derived exception (rule 4).
+- **Confidence signal.** Claude on Bedrock gives no token probabilities, so confidence is the model's own rating (`high`/`medium`/`low`) per field. That is weak evidence, so it can only ADD a requirement (a minimum level) and can never rescue a field that failed gates 1 to 4.
+- **Threshold choice (train only).** On 100 `extraction_train` labels, compare three settings: no confidence requirement, `medium` or above, `high` only. Choose the setting with the highest per-field auto-approval rate whose train precision (approved fields that match gold) is >= 96% (the 1-point margin covers train-to-test drift). If none qualifies, the most strict setting is used and the shortfall is reported.
+
+**Test run.** Once, on 150 labels of `extraction_test` (a fixed, seeded subset chosen before the run), with the chosen setting. Reported: per-field and per-label auto-approval rate, precision of auto-approved fields (target >= 95%), field F1 over all items (Phase 4's base-model number), and the queue catch rate (wrong extractions that were flagged / all wrong extractions). The simulated-workload caveat applies. Cost cap: $1.50 on a separate ledger.
+
 ### M3. Latency = p95 over 500 queries
 - 500 distinct queries against the live query service with >= 100,000 vectors in Pinecone, measured client-side end to end (HTTP request in, results out, including query embedding). Warm-up queries (20) are excluded and stated.
 - Reported: p50, p95, p99, vector count, machine, and network location.
