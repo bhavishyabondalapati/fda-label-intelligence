@@ -28,8 +28,9 @@ Fields:
 - is_combination: true if the product has two or more different active ingredients, else false.
 - route: how the product is given. Choose exactly one of: {json.dumps(ROUTES)}. null if the text gives no clue.
 - has_boxed_warning: true only if the text contains a boxed warning (a prominent "WARNING:" block at the top), else false.
-- pharm_class: pharmacologic class names ONLY if the label text itself names a class (for example "Nonsteroidal Anti-inflammatory Drug").
-  Otherwise [].
+- pharm_class: the standard SHORT pharmacologic class name (for example "Nonsteroidal Anti-inflammatory Drug", "Muscle Relaxant",
+  "Benzodiazepine", "Thiazide Diuretic"), but ONLY if the label text itself names that class; quote the words that name it.
+  Do not write long descriptions such as "centrally acting skeletal muscle relaxant". Otherwise [].
 - confidence for each field: "high" (stated plainly), "medium" (needs some interpretation), or "low" (a guess).
 
 Reply with ONLY a JSON object, no other text, of the form:

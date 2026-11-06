@@ -1,0 +1,252 @@
+{
+  "split": "extraction_train",
+  "n_labels": 100,
+  "chosen_min_conf": "high",
+  "choice_rule": "no setting reached train precision 0.96; strictest used",
+  "settings": [
+    {
+      "min_conf": "low",
+      "n_labels": 100,
+      "n_field_values": 600,
+      "per_field_auto_approval_rate": 0.7666666666666667,
+      "per_label_auto_approval_rate": 0.11,
+      "auto_approved_precision": 0.8521739130434782,
+      "n_auto_approved": 460,
+      "n_wrong_extractions": 117,
+      "wrong_sent_to_review": 49,
+      "queue_catch_rate": 0.4188034188034188,
+      "queue_precision": 0.35,
+      "accuracy_all_fields": 0.805,
+      "field_f1_micro": {
+        "precision": 0.5931372549019608,
+        "recall": 0.8506151142355008,
+        "f1": 0.6989169675090253
+      },
+      "by_field": {
+        "generic_name": {
+          "auto_approval_rate": 0.94,
+          "auto_approved_precision": 0.9148936170212766,
+          "n_auto_approved": 94,
+          "accuracy": 0.88,
+          "f1": 0.888888888888889
+        },
+        "active_ingredients": {
+          "auto_approval_rate": 0.9,
+          "auto_approved_precision": 0.9666666666666667,
+          "n_auto_approved": 90,
+          "accuracy": 0.92,
+          "f1": 0.847457627118644
+        },
+        "is_combination": {
+          "auto_approval_rate": 0.91,
+          "auto_approved_precision": 0.978021978021978,
+          "n_auto_approved": 91,
+          "accuracy": 0.97,
+          "f1": 0.9748743718592964
+        },
+        "route": {
+          "auto_approval_rate": 0.96,
+          "auto_approved_precision": 0.9583333333333334,
+          "n_auto_approved": 96,
+          "accuracy": 0.93,
+          "f1": 0.9346733668341709
+        },
+        "has_boxed_warning": {
+          "auto_approval_rate": 0.31,
+          "auto_approved_precision": 1.0,
+          "n_auto_approved": 31,
+          "accuracy": 0.95,
+          "f1": 0.9547738693467336
+        },
+        "pharm_class": {
+          "auto_approval_rate": 0.58,
+          "auto_approved_precision": 0.1206896551724138,
+          "n_auto_approved": 58,
+          "accuracy": 0.18,
+          "f1": 0.062146892655367235
+        }
+      },
+      "strict_accuracy_no_salt_stripping": {
+        "generic_name": 0.81,
+        "active_ingredients": 0.79
+      }
+    },
+    {
+      "min_conf": "medium",
+      "n_labels": 100,
+      "n_field_values": 600,
+      "per_field_auto_approval_rate": 0.7666666666666667,
+      "per_label_auto_approval_rate": 0.11,
+      "auto_approved_precision": 0.8521739130434782,
+      "n_auto_approved": 460,
+      "n_wrong_extractions": 117,
+      "wrong_sent_to_review": 49,
+      "queue_catch_rate": 0.4188034188034188,
+      "queue_precision": 0.35,
+      "accuracy_all_fields": 0.805,
+      "field_f1_micro": {
+        "precision": 0.5931372549019608,
+        "recall": 0.8506151142355008,
+        "f1": 0.6989169675090253
+      },
+      "by_field": {
+        "generic_name": {
+          "auto_approval_rate": 0.94,
+          "auto_approved_precision": 0.9148936170212766,
+          "n_auto_approved": 94,
+          "accuracy": 0.88,
+          "f1": 0.888888888888889
+        },
+        "active_ingredients": {
+          "auto_approval_rate": 0.9,
+          "auto_approved_precision": 0.9666666666666667,
+          "n_auto_approved": 90,
+          "accuracy": 0.92,
+          "f1": 0.847457627118644
+        },
+        "is_combination": {
+          "auto_approval_rate": 0.91,
+          "auto_approved_precision": 0.978021978021978,
+          "n_auto_approved": 91,
+          "accuracy": 0.97,
+          "f1": 0.9748743718592964
+        },
+        "route": {
+          "auto_approval_rate": 0.96,
+          "auto_approved_precision": 0.9583333333333334,
+          "n_auto_approved": 96,
+          "accuracy": 0.93,
+          "f1": 0.9346733668341709
+        },
+        "has_boxed_warning": {
+          "auto_approval_rate": 0.31,
+          "auto_approved_precision": 1.0,
+          "n_auto_approved": 31,
+          "accuracy": 0.95,
+          "f1": 0.9547738693467336
+        },
+        "pharm_class": {
+          "auto_approval_rate": 0.58,
+          "auto_approved_precision": 0.1206896551724138,
+          "n_auto_approved": 58,
+          "accuracy": 0.18,
+          "f1": 0.062146892655367235
+        }
+      },
+      "strict_accuracy_no_salt_stripping": {
+        "generic_name": 0.81,
+        "active_ingredients": 0.79
+      }
+    },
+    {
+      "min_conf": "high",
+      "n_labels": 100,
+      "n_field_values": 600,
+      "per_field_auto_approval_rate": 0.7466666666666667,
+      "per_label_auto_approval_rate": 0.09,
+      "auto_approved_precision": 0.8660714285714286,
+      "n_auto_approved": 448,
+      "n_wrong_extractions": 117,
+      "wrong_sent_to_review": 57,
+      "queue_catch_rate": 0.48717948717948717,
+      "queue_precision": 0.375,
+      "accuracy_all_fields": 0.805,
+      "field_f1_micro": {
+        "precision": 0.5931372549019608,
+        "recall": 0.8506151142355008,
+        "f1": 0.6989169675090253
+      },
+      "by_field": {
+        "generic_name": {
+          "auto_approval_rate": 0.94,
+          "auto_approved_precision": 0.9148936170212766,
+          "n_auto_approved": 94,
+          "accuracy": 0.88,
+          "f1": 0.888888888888889
+        },
+        "active_ingredients": {
+          "auto_approval_rate": 0.9,
+          "auto_approved_precision": 0.9666666666666667,
+          "n_auto_approved": 90,
+          "accuracy": 0.92,
+          "f1": 0.847457627118644
+        },
+        "is_combination": {
+          "auto_approval_rate": 0.91,
+          "auto_approved_precision": 0.978021978021978,
+          "n_auto_approved": 91,
+          "accuracy": 0.97,
+          "f1": 0.9748743718592964
+        },
+        "route": {
+          "auto_approval_rate": 0.92,
+          "auto_approved_precision": 0.967391304347826,
+          "n_auto_approved": 92,
+          "accuracy": 0.93,
+          "f1": 0.9346733668341709
+        },
+        "has_boxed_warning": {
+          "auto_approval_rate": 0.31,
+          "auto_approved_precision": 1.0,
+          "n_auto_approved": 31,
+          "accuracy": 0.95,
+          "f1": 0.9547738693467336
+        },
+        "pharm_class": {
+          "auto_approval_rate": 0.5,
+          "auto_approved_precision": 0.12,
+          "n_auto_approved": 50,
+          "accuracy": 0.18,
+          "f1": 0.062146892655367235
+        }
+      },
+      "strict_accuracy_no_salt_stripping": {
+        "generic_name": 0.81,
+        "active_ingredients": 0.79
+      }
+    }
+  ],
+  "confidence_distribution": {
+    "generic_name": {
+      "low": 1,
+      "medium": 0,
+      "high": 99
+    },
+    "active_ingredients": {
+      "low": 1,
+      "medium": 0,
+      "high": 99
+    },
+    "is_combination": {
+      "low": 1,
+      "medium": 0,
+      "high": 99
+    },
+    "route": {
+      "low": 1,
+      "medium": 4,
+      "high": 95
+    },
+    "has_boxed_warning": {
+      "low": 1,
+      "medium": 0,
+      "high": 99
+    },
+    "pharm_class": {
+      "low": 2,
+      "medium": 13,
+      "high": 85
+    }
+  },
+  "invalid_json_replies": 1,
+  "cost": {
+    "extract_calls": 100,
+    "extract_cost_usd": 0.4917,
+    "mean_extract_input_tokens": 2673,
+    "mean_extract_output_tokens": 449,
+    "summarize_calls": 24,
+    "summarize_cost_usd": 0.0168,
+    "mean_summarize_cost_usd": 0.0007,
+    "extract_latency_ms_p50": 2163
+  }
+}
