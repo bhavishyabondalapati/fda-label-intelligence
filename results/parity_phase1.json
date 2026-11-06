@@ -1,0 +1,63 @@
+{
+  "what": "eval-v1 through the HTTP query service (Pinecone ANN) vs the Phase 0 local exact baseline",
+  "n_questions": 200,
+  "relaxed_primary": {
+    "local_exact_baseline (results/baseline.json)": {
+      "recall_at_1": 0.23,
+      "recall_at_5": 0.475,
+      "mrr_at_10": 0.3312,
+      "n_hits_at_5": 95
+    },
+    "pinecone_service": {
+      "recall_at_1": 0.235,
+      "recall_at_5": 0.465,
+      "mrr_at_10": 0.3311,
+      "n_hits_at_5": 93
+    },
+    "exact_search_on_phase1_vectors": {
+      "recall_at_1": 0.23,
+      "recall_at_5": 0.475,
+      "mrr_at_10": 0.3312,
+      "n_hits_at_5": 95
+    },
+    "delta_service_minus_baseline": {
+      "recall_at_1": 0.005,
+      "recall_at_5": -0.01,
+      "mrr_at_10": -0.0001,
+      "n_hits_at_5": -2
+    }
+  },
+  "strict_crosscheck": {
+    "local_exact_baseline": {
+      "rule": "exact gold set_id, chunk covers gold section",
+      "recall_at_1": 0.06,
+      "recall_at_5": 0.235,
+      "mrr_at_10": 0.1307,
+      "n_hits_at_5": 47
+    },
+    "pinecone_service": {
+      "recall_at_1": 0.065,
+      "recall_at_5": 0.225,
+      "mrr_at_10": 0.1327,
+      "n_hits_at_5": 45
+    }
+  },
+  "questions_where_hit_at_5_differs_service_vs_exact": [
+    "q0039",
+    "q0042",
+    "q0105",
+    "q0191"
+  ],
+  "ann_vs_exact": {
+    "mean_top10_overlap_pinecone_vs_exact_phase1_vectors": 0.94,
+    "mean_top5_overlap_pinecone_vs_exact_phase1_vectors": 0.921,
+    "mean_top10_overlap_pinecone_vs_exact_phase0_vectors": 0.94,
+    "mean_top10_overlap_exact_phase0_vs_exact_phase1": 1.0
+  },
+  "embedding_runs": {
+    "n_vectors": 323280,
+    "max_abs_difference_phase0_vs_phase1": 0.0,
+    "min_cosine_phase0_vs_phase1": 0.9999997615814209,
+    "mean_cosine_phase0_vs_phase1": 1.0
+  }
+}
