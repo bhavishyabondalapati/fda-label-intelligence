@@ -1,0 +1,192 @@
+{
+ "n_scored": 16,
+ "configs": {
+  "baseline": {
+   "recall_at_1": 0.125,
+   "recall_at_5": 0.1875,
+   "mrr_at_10": 0.184,
+   "n_hits_at_5": 3,
+   "by_kind_recall_at_5": {
+    "misspelled": 0.375,
+    "brand_vs_generic": 0.0
+   }
+  },
+  "headers+rerank (no filter)": {
+   "recall_at_1": 0.3125,
+   "recall_at_5": 0.375,
+   "mrr_at_10": 0.3411,
+   "n_hits_at_5": 6,
+   "by_kind_recall_at_5": {
+    "misspelled": 0.5,
+    "brand_vs_generic": 0.25
+   }
+  },
+  "CHOSEN headers+filter+rerank": {
+   "recall_at_1": 0.25,
+   "recall_at_5": 0.3125,
+   "mrr_at_10": 0.2786,
+   "n_hits_at_5": 5,
+   "by_kind_recall_at_5": {
+    "misspelled": 0.5,
+    "brand_vs_generic": 0.125
+   }
+  }
+ },
+ "rows": [
+  {
+   "kind": "misspelled",
+   "question": "Which medications interact with Indomethacn?",
+   "gold_drug": "Indomethacin",
+   "detected": null,
+   "chosen_top1": "Indomethacin / drug_interactions"
+  },
+  {
+   "kind": "misspelled",
+   "question": "How is NEBIVLOL supplied?",
+   "gold_drug": "NEBIVOLOL",
+   "detected": null,
+   "chosen_top1": "nebivolol / how_supplied"
+  },
+  {
+   "kind": "misspelled",
+   "question": "When should Foasprepitant not be used?",
+   "gold_drug": "Fosaprepitant",
+   "detected": null,
+   "chosen_top1": "Fosaprepitant / warnings_and_cautions"
+  },
+  {
+   "kind": "misspelled",
+   "question": "What is the chemical description of Rhofae?",
+   "gold_drug": "Rhofade",
+   "detected": null,
+   "chosen_top1": "Rhofade / description"
+  },
+  {
+   "kind": "misspelled",
+   "question": "What is the mechanism of action of Glimepiirde?",
+   "gold_drug": "Glimepiride",
+   "detected": null,
+   "chosen_top1": "Glimepiride / clinical_pharmacology"
+  },
+  {
+   "kind": "misspelled",
+   "question": "What are the warnings and precautions for SIOLDOSIN?",
+   "gold_drug": "SILODOSIN",
+   "detected": null,
+   "chosen_top1": "SILDENAFIL CITRATE / adverse_reactions"
+  },
+  {
+   "kind": "misspelled",
+   "question": "What conditions is Nadooll used to treat?",
+   "gold_drug": "Nadolol",
+   "detected": null,
+   "chosen_top1": "Nadolol / indications_and_usage"
+  },
+  {
+   "kind": "misspelled",
+   "question": "What are the warnings and precautions for Vaalcyclovir?",
+   "gold_drug": "Valacyclovir",
+   "detected": null,
+   "chosen_top1": "Acyclovir / warnings"
+  },
+  {
+   "kind": "brand_vs_generic",
+   "question": "What is Acyclovir indicated for?",
+   "gold_drug": "Acyclovir suspension",
+   "detected": [
+    "acyclovir",
+    null
+   ],
+   "chosen_top1": "Acyclovir / description"
+  },
+  {
+   "kind": "brand_vs_generic",
+   "question": "What drug interactions does Dexmedetomidine Hydrochloride have?",
+   "gold_drug": "Dexmedetomidine Hydrochloride in 0.9% Sodium Chloride",
+   "detected": [
+    "dexmedetomidine hydrochloride",
+    null
+   ],
+   "chosen_top1": "Dexmedetomidine Hydrochloride / drug_interactions"
+  },
+  {
+   "kind": "brand_vs_generic",
+   "question": "What are the contraindications for Dexamethasone?",
+   "gold_drug": "Hemady",
+   "detected": [
+    "dexamethasone",
+    null
+   ],
+   "chosen_top1": "Dexamethasone / warnings"
+  },
+  {
+   "kind": "brand_vs_generic",
+   "question": "What is the mechanism of action of Macitentan And Tadalafil?",
+   "gold_drug": "OPSYNVI",
+   "detected": [
+    "macitentan",
+    null
+   ],
+   "chosen_top1": "macitentan / mechanism_of_action"
+  },
+  {
+   "kind": "brand_vs_generic",
+   "question": "How is an overdose of Levothyroxine Liothyronine treated?",
+   "gold_drug": "NP THYROID 60",
+   "detected": null,
+   "chosen_top1": "Levothyroxine Sodium / overdosage"
+  },
+  {
+   "kind": "brand_vs_generic",
+   "question": "What is the recommended dosage of Iptacopan?",
+   "gold_drug": "FABHALTA",
+   "detected": null,
+   "chosen_top1": "FABHALTA / pharmacokinetics"
+  },
+  {
+   "kind": "brand_vs_generic",
+   "question": "What is the recommended dosage of Teduglutide?",
+   "gold_drug": "Gattex",
+   "detected": null,
+   "chosen_top1": "Gattex / pharmacokinetics"
+  },
+  {
+   "kind": "brand_vs_generic",
+   "question": "What drug interactions does Dexmedetomidine Hydrochloride have?",
+   "gold_drug": "Precedex",
+   "detected": [
+    "dexmedetomidine hydrochloride",
+    null
+   ],
+   "chosen_top1": "Dexmedetomidine Hydrochloride / drug_interactions"
+  },
+  {
+   "kind": "no_drug",
+   "question": "What is the boxed warning for the blood pressure pill my doctor gave me?",
+   "gold_drug": null,
+   "detected": null,
+   "chosen_top1": "Etodolac / warnings"
+  },
+  {
+   "kind": "no_drug",
+   "question": "What side effects does that new antibiotic cause?",
+   "gold_drug": null,
+   "detected": null,
+   "chosen_top1": "Tobramycin / adverse_reactions"
+  },
+  {
+   "kind": "no_drug",
+   "question": "How should my insulin pen be stored?",
+   "gold_drug": null,
+   "detected": null,
+   "chosen_top1": "Rezvoglar KwikPen / how_supplied"
+  },
+  {
+   "kind": "no_drug",
+   "question": "What happens if someone takes too much of a painkiller?",
+   "gold_drug": null,
+   "detected": null,
+   "chosen_top1": "Oxycodone and Acetaminophen / warnings"
+  }
+ ]
+}
