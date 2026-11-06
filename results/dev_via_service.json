@@ -1,0 +1,14 @@
+{
+ "dev_via_pinecone_service": {
+  "recall_at_1": 0.7625,
+  "recall_at_5": 0.9,
+  "mrr_at_10": 0.8244,
+  "n_hits_at_5": 360
+ },
+ "dev_strict": {
+  "recall_at_1": 0.4125,
+  "recall_at_5": 0.7325,
+  "mrr_at_10": 0.5509,
+  "n_hits_at_5": 293
+ }
+}

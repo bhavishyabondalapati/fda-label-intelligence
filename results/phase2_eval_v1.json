@@ -1,0 +1,83 @@
+{
+  "what": "Phase 2 pipeline on frozen eval-v1 via HTTP query service + Pinecone (run once)",
+  "pipeline_config": {
+    "header": true,
+    "section_chunks": false,
+    "filter": true,
+    "hybrid": false,
+    "rerank": true
+  },
+  "n_questions": 200,
+  "relaxed_primary": {
+    "recall_at_1": 0.72,
+    "recall_at_5": 0.825,
+    "mrr_at_10": 0.7659,
+    "n_hits_at_5": 165
+  },
+  "baseline_eval_v1": {
+    "recall_at_1": 0.23,
+    "recall_at_5": 0.475,
+    "mrr_at_10": 0.3312
+  },
+  "absolute_improvement": {
+    "recall_at_1": 0.49,
+    "recall_at_5": 0.35,
+    "mrr_at_10": 0.4347
+  },
+  "relative_improvement": {
+    "recall_at_1": 2.1304,
+    "recall_at_5": 0.7368,
+    "mrr_at_10": 1.3125
+  },
+  "target_recall_at_5": 0.6175,
+  "meets_target": true,
+  "strict_crosscheck": {
+    "baseline": {
+      "rule": "exact gold set_id, chunk covers gold section",
+      "recall_at_1": 0.06,
+      "recall_at_5": 0.235,
+      "mrr_at_10": 0.1307,
+      "n_hits_at_5": 47
+    },
+    "phase2": {
+      "recall_at_1": 0.275,
+      "recall_at_5": 0.52,
+      "mrr_at_10": 0.3786,
+      "n_hits_at_5": 104
+    }
+  },
+  "per_section_recall_at_5": {
+    "adverse_reactions": 0.941,
+    "boxed_warning": 0.706,
+    "contraindications": 0.529,
+    "description": 0.941,
+    "dosage_and_administration": 1.0,
+    "drug_interactions": 0.824,
+    "how_supplied": 0.765,
+    "indications_and_usage": 0.706,
+    "mechanism_of_action": 0.765,
+    "overdosage": 0.882,
+    "storage_and_handling": 0.923,
+    "warnings_and_cautions": 0.941
+  },
+  "per_section_n": {
+    "adverse_reactions": 17,
+    "boxed_warning": 17,
+    "contraindications": 17,
+    "description": 17,
+    "dosage_and_administration": 17,
+    "drug_interactions": 17,
+    "how_supplied": 17,
+    "indications_and_usage": 17,
+    "mechanism_of_action": 17,
+    "overdosage": 17,
+    "storage_and_handling": 13,
+    "warnings_and_cautions": 17
+  },
+  "health": {
+    "status": "ok",
+    "pinecone_connected": true,
+    "namespace": "v2",
+    "pipeline": "v2"
+  }
+}
