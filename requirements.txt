@@ -1,0 +1,6 @@
+# Phase 0 only. Later phases add their own packages.
+numpy>=1.26                  # vector math for the local index and metrics
+sentence-transformers>=3.0   # all-MiniLM-L6-v2 embeddings (pulls in torch, which supports Apple "mps")
+requests>=2.31               # download the openFDA bulk files
+tqdm>=4.66                   # progress bars for long downloads / embedding
+pytest>=8.0                  # tests

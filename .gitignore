@@ -1,0 +1,20 @@
+# Python environments and caches
+venv/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Secrets: real keys live only in .env
+.env
+
+# macOS
+.DS_Store
+
+# Data: raw downloads and processed files are rebuilt by scripts, never committed
+data/raw/
+data/processed/*
+!data/processed/.gitkeep
+
+# Local embedding caches
+*.npy
