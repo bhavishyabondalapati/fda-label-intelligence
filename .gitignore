@@ -22,3 +22,4 @@ data/processed/*
 # Local service pids/logs (make up)
 .run/
 *.pkl
+data/finetune/
