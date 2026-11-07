@@ -150,3 +150,31 @@ Re-scoring the same saved train outputs under both amendments (no new model call
 | SageMaker QLoRA job (1 GPU, ~1 h, spot if possible) | ~$1.5 to $3 |
 | S3, misc | < $0.50 |
 | **Total** | **< $5** |
+
+## M4 pre-registration: QLoRA fine-tune of Qwen2.5-1.5B-Instruct (written 2026-11-06, before any Phase 4 data was built or any model run)
+
+**Goal.** Same extraction task as Phase 3 (6 fields; value + code-built quote + confidence JSON). Compare the BASE Qwen2.5-1.5B-Instruct against the same model with a QLoRA adapter on the SAME 150 `extraction_test` labels (the Phase 3 sample: first 150 by sha256 of `phase3-extraction_test:<set_id>`). Haiku 4.5's 0.787 is shown only as a reference.
+
+**Training data.**
+- Source: `extraction_train` only. 1,200 labels for training (first 1,200 by sha256 of `phase4-train:<set_id>`) and the next 100 for validation loss monitoring only (no tuning of anything). Test labels and `retrieval_eval` are never read when building data.
+- Input: byte-for-byte the Phase 3 prompt (`EXTRACT_SYSTEM` + the same `select_text` section text). No openFDA block, metadata or section names.
+- Targets: openFDA gold values in the Phase 3 forms (lowercase names, route from the allowed list, a route outside the list becomes `OTHER`), confidence always "high".
+- **Quotes are built by code**, never by a model: the gold value is searched (case and whitespace insensitive) in the source text, and a window of 3 to 300 characters around the first match, snapped to word boundaries, is used and checked with the existing `quote_ok`. Route uses the Phase 3 route cue words; `has_boxed_warning=true` quotes the start of the boxed warning; `false`, empty lists and `is_combination` get no quote. If the value cannot be found in the text the field is kept with `quotes: []`. Examples are NOT dropped for that (dropping would favour easy labels). The share of fields with a real quote is reported.
+- **`pharm_class` loss masking:** the tokens of the `pharm_class` value and its quotes are excluded from the loss whenever the gold list is empty, or non-empty but no class phrase is found in the text. Reason: openFDA has no class for about 61% of labels even when the text names one, and training on those would teach "output []". Scoring on test still uses the gold as is.
+- Examples longer than 4,096 tokens are dropped and counted (should be rare, since the section text is capped at 12,000 characters).
+
+**Training (fixed, no search).** 4-bit nf4 quantization, **fp16** compute (a T4 has no good bf16), LoRA r=16, alpha=32, dropout 0.05 on q,k,v,o,gate,up,down; learning rate 2e-4, cosine, 3% warmup, 1 epoch, micro-batch 1 with 8 accumulation steps (effective 8, about 150 optimizer steps), seed 42, gradient checkpointing, loss on answer tokens only. A NaN loss aborts the job early. A wall-clock guard saves the adapter after 6,000 s of training; if it ever fires, the README says the epoch was cut short.
+
+**Instance and cost guard (price verified 2026-11-06 with the AWS Price List API, region us-east-2, usage type `USE2-Train:ml.g4dn.xlarge`: $0.736 per hour).**
+- `ml.g4dn.xlarge` (NVIDIA T4 16 GB), **on-demand** (no managed spot), instance count 1. Quota request is still pending, so nothing is launched.
+- `max_run` = 6,600 s, a ceiling of 1.83 h x $0.736 = $1.35. Allowing up to 10 more minutes of billed start-up and download, the worst case is $1.47, under the $1.50 limit.
+- The label count (1,200, about 3.2M tokens) was chosen so that even a pessimistic 500 tokens/s finishes in about 108 minutes. My expected rate is 800 to 1,500 tokens/s (an estimate, NOT measured, since the local smoke test runs on mps), which means 36 to 68 minutes and **$0.45 to $0.85**. The job prints its measured tokens/s after 10 steps.
+
+**Evaluation (identical for base and adapter).** Run locally on mps in bf16, greedy decoding, up to 512 new tokens, same prompt. Output that is not a JSON object counts as all fields wrong. Scoring is `src/extract/scoring.py` (frozen in Phase 3). Reported for each model, as absolute and relative improvement of adapter over base, each with a 95% bootstrap CI over labels (2,000 resamples, seed 42):
+1. **Headline: micro field F1, all 150 labels**, with all 6 fields AND with 5 fields (`pharm_class` left out).
+2. **Parsed-only F1** (format vs skill): F1 over the labels whose output parsed as JSON, for each model, plus the labels where BOTH parsed. Also the parse rate of each model.
+3. **Unseen-drug F1** (memorized vs generalized): F1 on the test labels whose `generic_name` key (`name_key`) does NOT occur among the 1,200 labels the adapter was trained on. The same figure against all 4,058 train labels is also reported. The sizes of these subsets are stated next to the numbers.
+- Target: at least +15% relative micro F1 (6 fields, all labels). The resume bullet will use the number that comes out, whether or not it reaches 15%.
+- The test set is evaluated once per model. Nothing about the adapter is chosen from test results.
+
+**Caveats to print with the result.** 283 of the 333 distinct test generic names also appear in the full train split (different labels, same drugs); part of the gain is learning openFDA's conventions (first route only, salt stripping), which is why the unseen-drug number is shown; the adapter is compared with a small base model, not with Haiku.
