@@ -20,3 +20,8 @@ langchain-aws
 boto3
 botocore[crt]
 langgraph
+
+# Phase 4 (local smoke test and evaluation on mps; the SageMaker job uses sagemaker/requirements.txt)
+transformers
+peft
+accelerate

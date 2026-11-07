@@ -23,3 +23,8 @@ data/processed/*
 .run/
 *.pkl
 data/finetune/
+
+# Terraform local state and providers
+.terraform/
+*.tfstate*
+crash.log
