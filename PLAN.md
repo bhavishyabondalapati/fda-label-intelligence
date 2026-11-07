@@ -178,3 +178,5 @@ Re-scoring the same saved train outputs under both amendments (no new model call
 - The test set is evaluated once per model. Nothing about the adapter is chosen from test results.
 
 **Caveats to print with the result.** 283 of the 333 distinct test generic names also appear in the full train split (different labels, same drugs); part of the gain is learning openFDA's conventions (first route only, salt stripping), which is why the unseen-drug number is shown; the adapter is compared with a small base model, not with Haiku.
+
+**Addendum 2026-11-06 (scoring of malformed values; written before the base-model test run, applied equally to base and adapter).** A model output counts as *parsed* if it is a JSON object (code fences are stripped). Inside a parsed object, a list field (`active_ingredients`, `pharm_class`) given as a single string is read as a one-element list (otherwise the string would be scored letter by letter); a missing or null field is read as absent; booleans must be real booleans or the field counts as absent. This lives in `src/finetune/metrics.py`; the Phase 3 `scoring.py` is unchanged.
