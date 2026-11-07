@@ -1,0 +1,53 @@
+{
+  "metric": "M4: micro field F1 on 150 extraction_test labels (PLAN.md)",
+  "n_labels": 150,
+  "haiku_reference_f1_6_fields": 0.787,
+  "base": {
+    "n": 150,
+    "parse_rate": 0.94,
+    "f1_6_fields": 0.6267,
+    "f1_5_fields": 0.6988,
+    "parsed_only": {
+      "n": 141,
+      "f1_6_fields": 0.6446,
+      "f1_5_fields": 0.7193
+    },
+    "unseen_vs_1200_used": {
+      "n": 35,
+      "f1_6_fields": 0.5976,
+      "f1_5_fields": 0.6613
+    },
+    "unseen_vs_all_4058_train": {
+      "n": 10,
+      "f1_6_fields": 0.5794,
+      "f1_5_fields": 0.6392
+    },
+    "per_field": {
+      "generic_name": {
+        "f1": 0.8935,
+        "accuracy": 0.8667
+      },
+      "active_ingredients": {
+        "f1": 0.3833,
+        "accuracy": 0.4
+      },
+      "is_combination": {
+        "f1": 0.921,
+        "accuracy": 0.8933
+      },
+      "route": {
+        "f1": 0.869,
+        "accuracy": 0.84
+      },
+      "has_boxed_warning": {
+        "f1": 0.6048,
+        "accuracy": 0.5867
+      },
+      "pharm_class": {
+        "f1": 0.0,
+        "accuracy": 0.1267
+      }
+    },
+    "mean_seconds_per_label": 5.9
+  }
+}

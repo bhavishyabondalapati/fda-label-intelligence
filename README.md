@@ -2,7 +2,7 @@
 
 A GenAI document-processing platform over public FDA drug labels (openFDA, public domain). It chunks, embeds, searches, and extracts structured fields from ~5K prescription drug labels. Every performance number in this repo is produced by a script in this repo, as a relative improvement over a stated baseline.
 
-> **Status: Phase 3 complete (LangGraph extraction + validation + review queue).** Eval set and hit rule are frozen as git tag `eval-v1`.
+> **Status: Phase 3 complete; Phase 4 prepared (base-model number done, training waits for GPU quota).** Eval set and hit rule are frozen as git tag `eval-v1`.
 >
 > Phase 0 was data, eval set and baseline. See [PLAN.md](PLAN.md) for the full roadmap and exact metric definitions. This README is a stub and is completed in Phase 5.
 
@@ -104,4 +104,29 @@ python scripts/run_extraction.py --split extraction_train --n 100 --summaries 10
 python scripts/tune_extraction.py      # pre-registered threshold rule on train (free)
 python scripts/run_extraction.py --split extraction_test --n 150 --summaries 150 --workers 2 --min-conf medium --out results/extract_test_raw.jsonl   # ONE time
 python scripts/eval_phase3.py         # scores the test run, writes results/phase3.json (free)
+```
+
+## Phase 4: QLoRA fine-tune of Qwen2.5-1.5B-Instruct (in progress)
+
+Same extraction task as Phase 3, small open model instead of Haiku. The plan, metrics and cost guard were written in `PLAN.md` (M4 pre-registration) before anything ran.
+
+**Base model, 150 `extraction_test` labels (run once, local mps, greedy, `results/phase4.json`):**
+
+| Metric | Base Qwen2.5-1.5B |
+|---|---|
+| Micro field F1, 6 fields (headline) | **0.627** (Haiku 4.5 reference: 0.787) |
+| Micro field F1, 5 fields (no `pharm_class`) | 0.699 |
+| Output parsed as JSON | 94% (141 of 150) |
+| F1 on parsed outputs only (6 fields) | 0.645 |
+| F1 on test labels whose drug is not among the 1,200 training labels | 0.598, but only 35 labels |
+
+Weakest fields: `pharm_class` (F1 0.00) and `active_ingredients` (0.38, it lists inactive ingredients too). The 15% target means the adapter needs about 0.72 on the 6-field F1.
+
+**Not done yet:** the training job. The SageMaker quota for `ml.g4dn.xlarge` is still pending, so nothing was launched and no AWS resource was created. Prepared: `src/finetune/` (training data with code-built quotes), `sagemaker/train.py` (smoke-tested on mps with a 0.5B model, not on a GPU), `sagemaker/launch_job.py` (dry run by default, on-demand, worst case $1.47), `infra/phase4/` (Terraform for a private bucket and a role, validated, not applied).
+
+```bash
+python scripts/build_train_data.py                                   # 1,200 train + 100 val examples
+python scripts/run_qwen_extraction.py --out results/phase4_base_raw.jsonl   # base model, 150 test labels
+python scripts/eval_phase4.py                                        # scores, writes results/phase4.json
+python sagemaker/launch_job.py                                       # DRY RUN; add --launch only after quota approval
 ```
