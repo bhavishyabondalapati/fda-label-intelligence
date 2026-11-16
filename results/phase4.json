@@ -49,5 +49,145 @@
       }
     },
     "mean_seconds_per_label": 5.9
+  },
+  "adapter": {
+    "n": 150,
+    "parse_rate": 0.9933,
+    "f1_6_fields": 0.8165,
+    "f1_5_fields": 0.8694,
+    "parsed_only": {
+      "n": 149,
+      "f1_6_fields": 0.8191,
+      "f1_5_fields": 0.8725
+    },
+    "unseen_vs_1200_used": {
+      "n": 35,
+      "f1_6_fields": 0.7225,
+      "f1_5_fields": 0.7688
+    },
+    "unseen_vs_all_4058_train": {
+      "n": 10,
+      "f1_6_fields": 0.78,
+      "f1_5_fields": 0.8172
+    },
+    "per_field": {
+      "generic_name": {
+        "f1": 0.9365,
+        "accuracy": 0.9333
+      },
+      "active_ingredients": {
+        "f1": 0.5236,
+        "accuracy": 0.3133
+      },
+      "is_combination": {
+        "f1": 0.9632,
+        "accuracy": 0.96
+      },
+      "route": {
+        "f1": 0.8487,
+        "accuracy": 0.7667
+      },
+      "has_boxed_warning": {
+        "f1": 0.9967,
+        "accuracy": 0.9933
+      },
+      "pharm_class": {
+        "f1": 0.2462,
+        "accuracy": 0.4667
+      }
+    },
+    "mean_seconds_per_label": 4.7
+  },
+  "comparison": {
+    "all_150_6_fields (headline)": {
+      "n": 150,
+      "base": 0.6267,
+      "adapter": 0.8165,
+      "abs": 0.1897,
+      "rel": 0.3027,
+      "abs_ci95": [
+        0.1483,
+        0.234
+      ],
+      "rel_ci95": [
+        0.226,
+        0.3929
+      ]
+    },
+    "all_150_5_fields": {
+      "n": 150,
+      "base": 0.6988,
+      "adapter": 0.8694,
+      "abs": 0.1706,
+      "rel": 0.2441,
+      "abs_ci95": [
+        0.1241,
+        0.2179
+      ],
+      "rel_ci95": [
+        0.1688,
+        0.3308
+      ]
+    },
+    "both_parsed_6_fields": {
+      "n": 140,
+      "base": 0.6456,
+      "adapter": 0.8162,
+      "abs": 0.1706,
+      "rel": 0.2642,
+      "abs_ci95": [
+        0.1275,
+        0.2108
+      ],
+      "rel_ci95": [
+        0.1874,
+        0.3442
+      ]
+    },
+    "both_parsed_5_fields": {
+      "n": 140,
+      "base": 0.7209,
+      "adapter": 0.8696,
+      "abs": 0.1487,
+      "rel": 0.2063,
+      "abs_ci95": [
+        0.099,
+        0.1949
+      ],
+      "rel_ci95": [
+        0.1302,
+        0.2859
+      ]
+    },
+    "unseen_drugs_6_fields": {
+      "n": 35,
+      "base": 0.5976,
+      "adapter": 0.7225,
+      "abs": 0.125,
+      "rel": 0.2091,
+      "abs_ci95": [
+        0.0261,
+        0.2199
+      ],
+      "rel_ci95": [
+        0.0402,
+        0.4044
+      ]
+    },
+    "unseen_drugs_5_fields": {
+      "n": 35,
+      "base": 0.6613,
+      "adapter": 0.7688,
+      "abs": 0.1074,
+      "rel": 0.1624,
+      "abs_ci95": [
+        -0.0025,
+        0.2131
+      ],
+      "rel_ci95": [
+        -0.0035,
+        0.3541
+      ]
+    }
   }
 }

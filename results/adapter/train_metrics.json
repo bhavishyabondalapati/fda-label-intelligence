@@ -1,0 +1,24 @@
+{
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "steps_done": 126,
+  "steps_planned": 148,
+  "stopped_early": true,
+  "train_examples": 1181,
+  "dropped_too_long": 19,
+  "train_tokens": 3212713,
+  "seconds": 6226.8,
+  "tokens_per_second": 441.0,
+  "first_10_loss": 0.32444404661655424,
+  "last_10_loss": 0.07091052290052176,
+  "val_loss": 0.07219070568680763,
+  "quant": "4bit",
+  "dtype": "fp16",
+  "versions": {
+    "torch": "2.11.0+cu130",
+    "transformers": "5.22.1",
+    "peft": "0.21.2",
+    "bitsandbytes": "0.50.2",
+    "accelerate": "1.15.0",
+    "gpu": "Tesla T4"
+  }
+}
