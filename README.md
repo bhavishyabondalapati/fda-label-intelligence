@@ -2,7 +2,7 @@
 
 A GenAI document-processing platform over public FDA drug labels (openFDA, public domain). It chunks, embeds, searches, and extracts structured fields from ~5K prescription drug labels. Every performance number in this repo is produced by a script in this repo, as a relative improvement over a stated baseline.
 
-> **Status: Phase 3 complete; Phase 4 prepared (base-model number done, training waits for GPU quota).** Eval set and hit rule are frozen as git tag `eval-v1`.
+> **Status: Phase 3 complete; Phase 4 prepared (base-model number done, adapter training runs on a free Kaggle T4).** Eval set and hit rule are frozen as git tag `eval-v1`.
 >
 > Phase 0 was data, eval set and baseline. See [PLAN.md](PLAN.md) for the full roadmap and exact metric definitions. This README is a stub and is completed in Phase 5.
 
@@ -122,11 +122,13 @@ Same extraction task as Phase 3, small open model instead of Haiku. The plan, me
 
 Weakest fields: `pharm_class` (F1 0.00) and `active_ingredients` (0.38, it lists inactive ingredients too). The 15% target means the adapter needs about 0.72 on the 6-field F1.
 
-**Not done yet:** the training job. The SageMaker quota for `ml.g4dn.xlarge` is still pending, so nothing was launched and no AWS resource was created. Prepared: `src/finetune/` (training data with code-built quotes), `sagemaker/train.py` (smoke-tested on mps with a 0.5B model, not on a GPU), `sagemaker/launch_job.py` (dry run by default, on-demand, worst case $1.47), `infra/phase4/` (Terraform for a private bucket and a role, validated, not applied).
+**Not done yet:** the training run and the adapter evaluation. The SageMaker GPU quota request was denied (new account), so training moved to a free Kaggle T4 (same GPU type, so fp16 and every pre-registered setting stay; see `PLAN.md`, amendment 2026-11-16). AWS spend for Phase 4 is $0. Prepared: `src/finetune/` (training data with code-built quotes), `sagemaker/train.py` (the training script, despite the folder name; smoke-tested on mps with a 0.5B model, not yet on a GPU), `kaggle/` (notebook, dataset packaging and step-by-step instructions in `kaggle/README.md`). `infra/phase4/` (Terraform) and `sagemaker/launch_job.py` are **unused**, never applied, and kept in case SageMaker is retried later.
 
 ```bash
 python scripts/build_train_data.py                                   # 1,200 train + 100 val examples
 python scripts/run_qwen_extraction.py --out results/phase4_base_raw.jsonl   # base model, 150 test labels
 python scripts/eval_phase4.py                                        # scores, writes results/phase4.json
-python sagemaker/launch_job.py                                       # DRY RUN; add --launch only after quota approval
+python scripts/package_kaggle_dataset.py                              # builds the private Kaggle dataset bundle (checks for secrets)
+# then follow kaggle/README.md: upload the dataset, run kaggle/train_notebook.ipynb on a T4, download the adapter to results/adapter/
+python scripts/run_qwen_extraction.py --adapter results/adapter --out results/phase4_adapter_raw.jsonl   # adapter, same settings as the base run
 ```

@@ -1,3 +1,4 @@
+# UNUSED (Phase 4 trains on Kaggle now, see UNUSED.md). Kept in case SageMaker is retried. Never applied.
 # Phase 4 AWS setup: one private S3 bucket and one SageMaker training role. NOT APPLIED (see README).
 # An empty bucket and a role cost nothing; the only paid thing in Phase 4 is the training job itself,
 # which is created by sagemaker/launch_job.py and only after the GPU quota is approved.

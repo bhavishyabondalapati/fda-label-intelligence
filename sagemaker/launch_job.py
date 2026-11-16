@@ -1,4 +1,6 @@
-"""Create the Phase 4 SageMaker training job. DRY RUN by default: prints the request and the worst-case cost, creates nothing.
+"""UNUSED since 2026-11-16: the GPU quota was denied and Phase 4 trains on Kaggle (kaggle/). Kept in case SageMaker is retried.
+
+Create the Phase 4 SageMaker training job. DRY RUN by default: prints the request and the worst-case cost, creates nothing.
 
 To really launch (only after the ml.g4dn.xlarge training quota is approved and infra/phase4 was applied):
     python sagemaker/launch_job.py --launch

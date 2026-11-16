@@ -1,7 +1,7 @@
 """QLoRA fine-tune of Qwen2.5-1.5B-Instruct on the Phase 4 extraction data (PLAN.md "M4 pre-registration").
 
-Runs in a SageMaker training job (ml.g4dn.xlarge, T4, fp16, 4-bit) and also locally for a smoke test
-(`--quant none --device mps`). It is a plain PyTorch loop (no trainer library) so every step is visible.
+Runs on a free Kaggle T4 (fp16, 4-bit; see kaggle/), and locally for a smoke test (`--quant none --device mps`).
+(It also reads SageMaker's SM_CHANNEL_TRAIN / SM_MODEL_DIR variables, left over from the unused SageMaker plan.) It is a plain PyTorch loop (no trainer library) so every step is visible.
 
 Key ideas:
   * 4-bit base weights (nf4) + small trainable LoRA matrices: the base model is frozen, only ~1% is trained.
@@ -57,6 +57,20 @@ def example_loss(model, ids, w, first, device):
     return (ce * wt).sum() / wt.sum().clamp(min=1.0)
 
 
+def versions():
+    """Library and GPU versions, saved with the results so the run can be reproduced."""
+    import importlib.metadata as md
+    v = {"torch": torch.__version__}
+    for pkg in ("transformers", "peft", "bitsandbytes", "accelerate"):
+        try:
+            v[pkg] = md.version(pkg)
+        except md.PackageNotFoundError:
+            v[pkg] = None
+    if torch.cuda.is_available():
+        v["gpu"] = torch.cuda.get_device_name(0)
+    return v
+
+
 def main():
     env = os.environ
     ap = argparse.ArgumentParser()
@@ -76,6 +90,9 @@ def main():
     a = ap.parse_args()
 
     random.seed(a.seed); torch.manual_seed(a.seed)
+    print("versions:", json.dumps(versions()), flush=True)
+    if a.quant == "4bit" and not torch.cuda.is_available():
+        raise SystemExit("4-bit training needs a CUDA GPU: in Kaggle, set Accelerator to GPU T4 and restart the notebook")
     dt = {"fp16": torch.float16, "bf16": torch.bfloat16, "fp32": torch.float32}[a.dtype]
     tok = AutoTokenizer.from_pretrained(a.model)
     kw = {"dtype": dt}
@@ -154,7 +171,7 @@ def main():
                "train_examples": len(train), "dropped_too_long": dropped, "train_tokens": n_tok,
                "seconds": round(time.time() - t0, 1), "tokens_per_second": round(seen_tok / (time.time() - t0), 1),
                "first_10_loss": sum(losses[:10]) / max(1, len(losses[:10])), "last_10_loss": sum(losses[-10:]) / max(1, len(losses[-10:])),
-               "val_loss": sum(vl) / max(1, len(vl)), "quant": a.quant, "dtype": a.dtype}
+               "val_loss": sum(vl) / max(1, len(vl)), "quant": a.quant, "dtype": a.dtype, "versions": versions()}
     (out / "train_metrics.json").write_text(json.dumps(metrics, indent=2))
     print(json.dumps(metrics, indent=2), flush=True)
 
