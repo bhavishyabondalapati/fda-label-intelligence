@@ -32,4 +32,5 @@ crash.log
 # Kaggle upload bundle (rebuilt by scripts/package_kaggle_dataset.py)
 kaggle/dataset/
 kaggle/*.zip
-results/adapter/
+results/adapter/*.safetensors
+*.safetensors

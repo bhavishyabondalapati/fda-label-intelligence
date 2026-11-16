@@ -4,6 +4,7 @@ Builds kaggle/dataset/ (train.jsonl, val.jsonl, train.py, dataset-metadata.json)
 after checking that the files contain only extraction_train labels and no secret from .env.
 """
 import json
+import os
 import re
 import shutil
 import sys
@@ -38,7 +39,7 @@ def main():
         shutil.copy(ROOT / "data" / "finetune" / f, OUT / f)
     shutil.copy(ROOT / "sagemaker" / "train.py", OUT / "train.py")
     (OUT / "dataset-metadata.json").write_text(json.dumps({
-        "title": SLUG, "id": f"bhavishya12345678/{SLUG}", "licenses": [{"name": "CC0-1.0"}]}, indent=2))
+        "title": SLUG, "id": f"{os.environ.get('KAGGLE_USERNAME', 'your-kaggle-username')}/{SLUG}", "licenses": [{"name": "CC0-1.0"}]}, indent=2))
 
     # checks
     splits, n = set(), {}
